@@ -4,4 +4,6 @@ from . import views
 urlpatterns = [
     # Add your URL patterns here
     path('create_space/', views.create_space),
+    path('add_member/<uuid:spaceId>/<str:member_name>/', views.add_member, name='add_member'),
+    path('all_spaces/', views.spaces),
 ]

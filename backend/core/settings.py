@@ -160,10 +160,10 @@ EMAIL_HOST_USER = os.getenv('EMAIL_USERNAME')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
 
 
-# DJOSER = {
-#     "USER_ID_FIELD": "username",
-#     'LOGIN_FIELD': "email",
-#     'SEND_ACTIVATION_EMAIL': True,
-#     'ACTIVATION_URL': '#/activate/{uid}/{token}',
-#     'SEND_CONFIRMATION_EMAIL': True,
-# }
+DJOSER = {
+    "USER_ID_FIELD": "username",
+    'LOGIN_FIELD': "email",
+    'SEND_ACTIVATION_EMAIL': False,
+    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'SEND_CONFIRMATION_EMAIL': True,
+}
