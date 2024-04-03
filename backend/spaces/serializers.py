@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Space, UserSpace
+from .models import Space, UserSpace, Notice
 from django.contrib.auth.models import User
 
 
@@ -17,3 +17,17 @@ class GetSpaceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Space
         fields = ('spaceId', 'name', 'teacher_username', 'created_at')
+        
+class NoticeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notice
+        fields = '__all__'
+        
+class GetNoticeSerializer(serializers.ModelSerializer):
+    # created_by = serializers.CharField(source='created_by.username', read_only=True)
+    creator_name = serializers.CharField(source='created_by.username', read_only=True)
+    space_name = serializers.CharField(source='space.name', read_only=True)
+    
+    class Meta:
+        model = Notice
+        fields = ('noticeId', 'space_name', 'title', 'content', 'created_at', 'deadline', 'creator_name')

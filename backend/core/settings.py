@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     #In-app apps
     "accounts.apps.AccountsConfig",
     "spaces.apps.SpacesConfig",
+    "portal.apps.PortalConfig",
 ]
 
 MIDDLEWARE = [
@@ -125,7 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Kathmandu"
 
 USE_I18N = True
 

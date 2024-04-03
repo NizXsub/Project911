@@ -22,5 +22,18 @@ class IsTeacherOfSpace(BasePermission):
             return specific_user_space.is_teacher
         except:
             return False
+        
+class IsTeacherOfSpaceOrReadOnly(BasePermission):
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        try:
+            spaceId = request.resolver_match.kwargs.get('spaceId')
+            token = request.headers['Authorization'].split()[1]
+            teacher_id = Token.objects.get(key = token).user_id
+            specific_user_space = UserSpace.objects.get(user = teacher_id, space = spaceId)
+            return specific_user_space.is_teacher
+        except:
+            return False
 
         
