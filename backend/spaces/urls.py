@@ -8,6 +8,7 @@ urlpatterns = [
     path('change_to_teacher/<uuid:spaceId>/<str:member_name>/', views.add_member),
     path('all_spaces/', views.spaces),
     path('notice/<uuid:spaceId>/', views.notice_manager),
+    path('', views.my_spaces),
 ]
 
 

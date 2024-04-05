@@ -11,7 +11,6 @@ class IsTeacherOfSpace(BasePermission):
     def has_permission(self, request, view):
         # user_space = UserSpace.objects.get(user = request.user, space = request.data['spaceId'])
         # return user_space.is_teacher
-    
         try:
             spaceId = request.resolver_match.kwargs.get('spaceId')
             # space = UserSpace.objects.get(space = spaceId)

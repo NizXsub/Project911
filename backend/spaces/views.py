@@ -81,7 +81,20 @@ def spaces(request):
         serializer = GetSpaceSerializer(Space.objects.all(), many = True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response({'error': 'Invalid request'}, status=status.HTTP_400_BAD_REQUEST)
-    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def my_spaces(request):
+    if request.method == "GET":
+        # copied_data = request.data.copy()
+        
+        token = request.headers['Authorization'].split()[1]
+        teacher_id = Token.objects.get(key = token).user_id
+        user_space_serializer = UserSpaceSerializer(UserSpace.objects.filter(user = teacher_id), many = True)
+        
+        serializer = GetSpaceSerializer(Space.objects.filter(spaceId__in = [user_space['space'] for user_space in user_space_serializer.data]), many = True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response({'error': 'Invalid request'}, status=status.HTTP_400_BAD_REQUEST)   
         
 @api_view(['GET', 'POST', 'PATCH', 'DELETE'])
 @permission_classes([IsAuthenticated, IsTeacherOfSpaceOrReadOnly])
