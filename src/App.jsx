@@ -22,9 +22,9 @@ function App() {
         <Route path='dashboard' element={<Dashboard/>}>
           <Route index path="spaces" element={<Spaces/>} />
           <Route path="singlespace" element={<SingleSpace/>}/>
+          <Route path='explore' element={<Explore/>}/>
         </Route> 
         {/* <Route path='singlespace' element={<SingleSpace/>}/> */}
-        <Route path='explore' element={<Explore/>}/>
     </Routes>
     {/* <div className='absolute bottom-4 h-fit w-screen flex justify-center'>
       <Navbar/>

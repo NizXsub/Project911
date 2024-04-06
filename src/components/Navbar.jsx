@@ -33,7 +33,7 @@ export default function Navbar(){
         // </>
 
         <div className='fixed bottom-4 h-fit w-screen flex justify-center'>
-            <div className='w-1/4 border-2 border-[rgb(90, 78, 78)] border-solid rounded-full flex justify-center'>
+            <div className='w-1/4 border-[4px] border-[rgb(100, 178, 108)] border-solid rounded-full flex justify-center'>
                 <IconLabelTabs/>
             </div>
         </div>

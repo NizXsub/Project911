@@ -2,6 +2,8 @@ import {React, useState} from 'react'
 import { CgProfile } from "react-icons/cg";
 import { MdDateRange } from "react-icons/md";
 import UpperNav from './UpperNav';
+import CreateNotice from './CreateNotice.jsx'
+import CreatePortal from './CreatePortal.jsx'
 // import { FaChalkboardTeacher } from "react-icons/fa";
 
 
@@ -41,7 +43,14 @@ const SingleSpace = () => {
         </div>
     </div>
     <div className="allcontent bg-white h-[full] w-[72%] overflow-y-auto border-2 border-solid flex flex-col justify-between p-2">
+        { true ?
+            <CreateNotice/>
+            :
+            ''
+        }
+        
         <div className="noticeboard bg-[#004830] h-[50%] w-full border-[10px] border-solid border-white text-white p-3 shadow-lg overflow-y-auto">
+
             Notices:
             <div className="notice relative h-fit w-full p-10 border-2 border-solid border-white my-2">
                 <div className="noticedate absolute top-2 left-2 flex gap-2 items-center">
@@ -61,8 +70,18 @@ const SingleSpace = () => {
             </div>
         </div>
         <div className="portalwrapper h-[47%] bg-white w-full shadow-lg flex flex-col overflow-y-auto p-2">
-            Active Portals:
+            <div className='flex justify-between my-3'>
+                <p>
+                Active Portals:
+                </p>
+                        { true ?
+                    <CreatePortal/>
+                    :
+                    ''
+                }
+            </div>
             <div className="portal w-full h-auto border-2 border-solid flex flex-col justify-between items-center gap-2">
+            
                 <div className="portalinfo h-full w-full flex justify-between gap-1 p-2">
                     <div className="info w-[70%] overflow-y-auto flex flex-col gap-2">
                     <div className="portalname font-bold bg-amber-300 w-full py-1 px-3">
@@ -89,7 +108,7 @@ const SingleSpace = () => {
                 </div>
                 <div className='bg-slate-100 w-full flex justify-between items-center p-3'>
                 <input type="file" onChange={handleChange}/>
-                <button type="submit" className='bg-[#76FF7A] text-black font-bold text-[1.2rem] h-[2.5rem] w-[7rem] border-[1px] border-solid'>Upload</button>
+                <button type="submit" className='bg-[#76FF7A] text-black font-bold text-[1.2rem] h-[2.5rem] w-[7rem] border-[1px] border-solid hover:border-2 hover:border-black'>Upload</button>
                 </div>
             </div>
         </div>
