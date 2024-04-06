@@ -10,6 +10,8 @@ urlpatterns = [
     path('notice/<uuid:spaceId>/', views.notice_manager),
     path('', views.my_spaces),
     path('<spaceId>/send_request/', views.send_join_request),
+    path('<spaceId>/request_manager/', views.join_request_manager),
+    path('<spaceId>/iamteacher/',views.hi)
 ]
 
 

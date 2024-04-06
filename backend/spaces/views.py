@@ -7,7 +7,7 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from .permissions import IsTeacherOfSpace, IsTeacherOfSpaceOrReadOnly
-from .models import Space, UserSpace, Notice
+from .models import Space, UserSpace, Notice, JoinRequest
 from datetime import datetime
 
 
@@ -126,9 +126,8 @@ def notice_manager(request, spaceId):
     #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
-    
-@permission_classes([IsAuthenticated])
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def send_join_request(request, spaceId):
     if request.method == 'POST':
         copied_data = request.data.copy()
@@ -141,6 +140,35 @@ def send_join_request(request, spaceId):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'PATCH', 'DELETE'])
+@permission_classes([IsAuthenticated, IsTeacherOfSpace])
+def join_request_manager(request, spaceId):
+    if request.method == "GET":
+        join_requests = JoinRequest.objects.filter(space = spaceId, is_pending = True)
+        return Response(JoinRequestSerializer(join_requests, many = True).data, status=status.HTTP_200_OK)
+    if request.method == "PATCH":
+        join_requests = JoinRequest.objects.get(request_id = request.data['request_id'])
+        if not(request.data['is_pending']):
+            join_requests.is_pending = False
+            user_space_serializer = UserSpaceSerializer(data = {'user': join_requests.user.id, 'space': join_requests.space.spaceId, 'is_teacher': False})
+            if user_space_serializer.is_valid():
+                user_space_serializer.save()
+            join_requests.save()
+            return Response({'message': 'Request Accepted'}, status=status.HTTP_200_OK) 
+    if request.method == "DELETE":
+        join_requests.delete()
+        return Response({'message': 'Request Rejected'}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsTeacherOfSpace])
+def hi(request, spaceId):
+    return Response({'message': 'This is teacher'}, status=status.HTTP_200_OK)
+
+    
+    
+    
+    
     
 
     
