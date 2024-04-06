@@ -9,6 +9,7 @@ urlpatterns = [
     path('all_spaces/', views.spaces),
     path('notice/<uuid:spaceId>/', views.notice_manager),
     path('', views.my_spaces),
+    path('<spaceId>/send_request/', views.send_join_request),
 ]
 
 

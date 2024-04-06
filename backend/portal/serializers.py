@@ -10,3 +10,5 @@ class PortalSubmissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = PortalSubmission
         fields = '__all__'
+        
+        

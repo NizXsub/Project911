@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from .serializers import SpaceSerializer, UserSpaceSerializer, GetSpaceSerializer, GetNoticeSerializer, NoticeSerializer
+from .serializers import SpaceSerializer, UserSpaceSerializer, GetSpaceSerializer, GetNoticeSerializer, NoticeSerializer, JoinRequestSerializer
 from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
@@ -124,3 +124,24 @@ def notice_manager(request, spaceId):
     #         serializer.save()
     #         return Response(serializer.data, status=status.HTTP_200_OK)
     #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    
+@permission_classes([IsAuthenticated])
+@api_view(['POST'])
+def send_join_request(request, spaceId):
+    if request.method == 'POST':
+        copied_data = request.data.copy()
+        copied_data['space'] = spaceId
+        token = request.headers['Authorization'].split()[1]
+        student_id = Token.objects.get(key = token).user_id
+        copied_data['user'] = student_id
+        serializer = JoinRequestSerializer(data=copied_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+    
+        

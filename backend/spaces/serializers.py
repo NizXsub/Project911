@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Space, UserSpace, Notice
+from .models import Space, UserSpace, Notice, JoinRequest
 from django.contrib.auth.models import User
 
 
@@ -31,3 +31,8 @@ class GetNoticeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notice
         fields = ('noticeId', 'space_name', 'title', 'content', 'created_at', 'deadline', 'creator_name')
+        
+class JoinRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JoinRequest
+        fields = '__all__'

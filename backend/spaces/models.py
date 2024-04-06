@@ -53,3 +53,15 @@ class UserSpace(models.Model):
     def __str__(self):
         return self.user.username + " - " + self.space.name
     
+
+class JoinRequest(models.Model):
+    request_id = models.UUIDField(primary_key = False, default = uuid.uuid4, editable = False, unique = True)
+    user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+    space = models.ForeignKey(Space, to_field = 'spaceId',on_delete=models.CASCADE)
+    is_rejected = models.BooleanField(default=False)
+    sent_at = models.DateTimeField(auto_now_add=True)
+    is_pending = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return self.user.username + " - " + self.space.name
+    

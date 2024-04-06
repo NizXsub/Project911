@@ -17,7 +17,6 @@ class Portal(models.Model):
     def __str__(self):
         return self.name
 
-
 def get_upload_path(instance, filename):
     return os.path.join(
         "portal_submissions", "%d" % instance.portal.space.id, "%d" % instance.portal.id, instance.user.username, filename)
