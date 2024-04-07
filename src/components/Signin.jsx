@@ -49,9 +49,12 @@ export default function SignIn() {
     )
     if(res.ok){
       const json = await res.json();
-      console.log(json)
+      // console.log(json)
       localStorage.setItem("auth_token", json.auth_token);
-      window.location.href="/";
+      window.location.href="dashboard/spaces";
+    }else{
+        const x = await res.json()
+        alert(`${x.username == undefined ? "":x.username}\n${x.email == undefined ? "":x.email}\n${x.password == undefined ? "":x.password}`)
     }
    
   };

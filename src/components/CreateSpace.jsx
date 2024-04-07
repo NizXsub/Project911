@@ -10,6 +10,33 @@ import { FiPlus } from "react-icons/fi";
 import { RxCross2 } from "react-icons/rx";
 
 export default function FormDialog() {
+  const token = localStorage.getItem("auth_token");
+    // const [requestData, setrequestData] = React.useState()
+    
+
+
+    async function createSpace(auth_token, rdata){
+        const res = await fetch("http://127.0.0.1:8000/space/create_space/",{
+            method: "POST",
+            
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Token "+ auth_token.toString()
+                  },
+            body: JSON.stringify(rdata)
+        });
+        const data = await res.json()
+        console.log('Response:', data);
+        
+        // setUser(data)
+    }
+
+    // useEffect(()=>{
+    //     getUser(token);
+    // },[])
+
+
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -35,8 +62,10 @@ export default function FormDialog() {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
-            const email = formJson.email;
-            console.log(email);
+            const spaceName = formJson.spaceName;
+            const requestData= {"spaceId": null, "name": `${spaceName}`, "teacher":null, "created_at":null};
+            console.log(requestData);
+            createSpace(token, requestData);
             handleClose();
           },
         }}
@@ -57,7 +86,7 @@ export default function FormDialog() {
             fullWidth
             variant="standard"
           />
-          <TextField
+          {/* <TextField
             autoFocus
             required
             margin="dense"
@@ -67,7 +96,7 @@ export default function FormDialog() {
             type="email"
             fullWidth
             variant="standard"
-          />
+          /> */}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>
