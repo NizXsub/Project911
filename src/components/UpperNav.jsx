@@ -7,7 +7,7 @@ export default function UpperNav(){
 
 
     async function getUser(auth_token){
-        const res = await fetch("http://127.0.0.1:8000/auth/users/me/",{
+        const res = await fetch("https://homework-collab-production.up.railway.app/auth/users/me/",{
             method: "GET",
             
                 headers: {

@@ -35,7 +35,7 @@ export default function SignIn() {
   const handleSubmit = async(event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const res = await fetch("http://127.0.0.1:8000/auth/token/login/",
+    const res = await fetch("https://homework-collab-production.up.railway.app/auth/token/login/",
     {
       method: "POST",
       headers: {

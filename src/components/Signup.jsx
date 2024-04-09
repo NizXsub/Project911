@@ -42,7 +42,7 @@ export default function SignUp() {
       alert("password not matching")
       return;
     }
-    const res = await fetch("http://127.0.0.1:8000/auth/users/",
+    const res = await fetch("https://homework-collab-production.up.railway.app/auth/users/",
     {
       method: "POST",
       headers: {

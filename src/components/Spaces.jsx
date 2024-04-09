@@ -2,12 +2,19 @@ import React from 'react';
 import SpaceCard from './SpaceCard';
 import { Link as Exlink } from 'react-router-dom';
 import UpperNav from './UpperNav';
-import CreateSpace from './CreateSpace.jsx'
+import CreateSpace from './CreateSpace.jsx';
 // import { Button } from "@/components/ui/button"
 // import { Input } from "@/components/ui/input"
 
 
 export default function Spaces() {
+  const [spacesObj, setspacesObj] = React.useState([]);
+
+  async function spaceFetcher(auth_token){
+      const res = await fetch("https://homework-collab-production.up.railway.app/space/")
+
+  }
+
   return (
     <>
     <UpperNav/>

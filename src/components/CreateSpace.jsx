@@ -16,7 +16,7 @@ export default function FormDialog() {
 
 
     async function createSpace(auth_token, rdata){
-        const res = await fetch("http://127.0.0.1:8000/space/create_space/",{
+        const res = await fetch("https://homework-collab-production.up.railway.app/space/create_space/",{
             method: "POST",
             
                 headers: {
@@ -27,6 +27,7 @@ export default function FormDialog() {
         });
         const data = await res.json()
         console.log('Response:', data);
+
         
         // setUser(data)
     }
