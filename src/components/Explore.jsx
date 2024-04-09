@@ -3,6 +3,27 @@ import UpperNav from './UpperNav'
 import SpaceCard from './SpaceCard'
 
 const Explore = () => {
+  const token = localStorage.getItem("auth_token");
+  const [allSpacesState, setallSpacesState] = React.useState();
+
+  async function fetchAllSpaces(auth_token){
+    const res = await fetch("https://homework-collab-production.up.railway.app/space/all_spaces/",{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Token "+ auth_token.toString()
+      }
+    })
+    const data = await res.json();
+    console.log("All :"+ data);
+    setallSpacesState(data);
+
+  }
+React.useEffect(()=>{
+  fetchAllSpaces(token)
+},[])
+
+
   return (
     <>
     <UpperNav/>
@@ -31,8 +52,8 @@ const Explore = () => {
         </form>
     </div>
     <div className="explorespaces h-full w-[70%] border-2 flex p-10 gap-10">
-        <SpaceCard explore={true}/>
-        <SpaceCard explore={true}/>
+        <SpaceCard explore={true} spaceData={allSpacesState}/>
+        <SpaceCard explore={true} spaceData={allSpacesState}/>
     </div>
     </section>
 

@@ -16,8 +16,7 @@ export default function UpperNav(){
                   },
             
         })
-        const data = await res.json()
-        
+        const data = await res.json();
         setUser(data)
     }
 
@@ -25,7 +24,7 @@ export default function UpperNav(){
         getUser(token);
     },[])
 
-    console.log(user)
+    // console.log(user)
   return (
     <nav className='h-16 w-screen border-[1px] border-solid border-[#DDE1E4] flex justify-between items-center px-16'>
         <div>

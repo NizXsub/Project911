@@ -8,12 +8,27 @@ import CreateSpace from './CreateSpace.jsx';
 
 
 export default function Spaces() {
+  const token = localStorage.getItem("auth_token");
   const [spacesObj, setspacesObj] = React.useState([]);
 
   async function spaceFetcher(auth_token){
-      const res = await fetch("https://homework-collab-production.up.railway.app/space/")
-
+      const res = await fetch("https://homework-collab-production.up.railway.app/space/",{
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Token "+ auth_token.toString()
+          },
+  
+    })
+    const data = await res.json()
+    // console.log(data);
+    setspacesObj(data);
   }
+
+  React.useEffect(()=>{
+    // getUser(token);
+    spaceFetcher(token)
+},[])
 
   return (
     <>
@@ -26,7 +41,7 @@ export default function Spaces() {
     </div> */}
     <div className='w-[70%]'>
     <h1 className='text-[4rem] border-b-[1px] border-solid border-[black] mb-10'>My Spaces</h1>
-    { !true ?
+    { !spacesObj.len < 1?
       <Exlink to='/dashboard/singlespace'>
         <SpaceCard/>
       </Exlink>

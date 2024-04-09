@@ -64,7 +64,7 @@ export default function FormDialog() {
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
             const spaceName = formJson.spaceName;
-            const requestData= {"spaceId": null, "name": `${spaceName}`, "teacher":null, "created_at":null};
+            const requestData= {"spaceId": null, "name": `${spaceName}`, "teacher": null, "created_at": null};
             console.log(requestData);
             createSpace(token, requestData);
             handleClose();
