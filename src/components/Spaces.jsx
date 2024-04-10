@@ -13,6 +13,7 @@ export default function Spaces() {
 
   async function spaceFetcher(auth_token){
       const res = await fetch("https://homework-collab-production.up.railway.app/space/",{
+        // const res = await fetch("http://127.0.0.1:8000/space/all_spaces/",{
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -20,15 +21,26 @@ export default function Spaces() {
           },
   
     })
-    const data = await res.json()
-    // console.log(data);
+    const data = await res.json();
+    console.log(data);
     setspacesObj(data);
+    // console.log(spacesObj.length)
   }
 
   React.useEffect(()=>{
     // getUser(token);
     spaceFetcher(token)
 },[])
+
+function cardRenderer(){
+  return spacesObj.map((card, index) => (
+    // <Exlink to='/dashboard/singlespace'>
+    // console.log(card.name);
+        <SpaceCard key={index} spaceId={card.spaceId} name={card.name}/>
+        // console.log(card.name)
+      // </Exlink>
+  ))
+}
 
   return (
     <>
@@ -41,10 +53,10 @@ export default function Spaces() {
     </div> */}
     <div className='w-[70%]'>
     <h1 className='text-[4rem] border-b-[1px] border-solid border-[black] mb-10'>My Spaces</h1>
-    { !spacesObj.len < 1?
-      <Exlink to='/dashboard/singlespace'>
-        <SpaceCard/>
-      </Exlink>
+    {!spacesObj.length < 1 ?
+    <div className='h-[75%] border-2 flex flex-wrap gap-5 bg-white'>
+     {cardRenderer()}
+     </div>
     :
       <div className='h-[75%] border-2 flex flex-col justify-center items-center gap-5 bg-white'>
       <p>

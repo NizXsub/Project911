@@ -5,14 +5,21 @@ import './SpaceCard.css';
 import { MdContentCopy } from "react-icons/md";
 
 const SpaceCard = (props) => {
+    const spaceIdRef = React.useRef(null);
+    const copyContent = () =>{
+        // const spaceIdContent = spaceIdRef.current.innerText;
+        navigator.clipboard.writeText(props.spaceId);
+        alert("SpaceId Copied!");
+    }
+
   return (
     <div className="wrapper h-[23rem] w-[18rem] flex flex-col bg-white border-2">
         <div className='h-[40%] w-[100%] relative'>
-            <div className="spaceid absolute text-white left-2 top-1 text-[13px]">
+            <div ref={spaceIdRef} className="spaceid absolute text-white left-2 top-1 text-[13px]">
                 {`Id: ${props.spaceId}`}
             </div>
-            <div className="copy absolute right-2 top-2">
-            <MdContentCopy className='text-white'/>
+            <div className="absolute right-2 top-2">
+            <MdContentCopy className='copy text-white' onClick={copyContent}/>
             </div>
             <div className='h-full w-full overflow-hidden flex justify-center items-center'>
                 <img className ="w-full h-full bg-black" src="" alt="Group Background" />
@@ -27,9 +34,7 @@ const SpaceCard = (props) => {
         </div>
         <div className="info h-[60%] p-5 flex flex-col gap-5">
             <div className="SpaceName text-2xl w-full">
-
                 {props.name}
-
             </div>
             <div className="notices w-full h-[60%] border-[1px]">
 

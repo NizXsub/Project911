@@ -2,12 +2,14 @@ import { useEffect , useState} from 'react'
 import {Link as Exlink} from 'react-router-dom';
 
 export default function UpperNav(){
-    const token = localStorage.getItem("auth_token");
+    let token = localStorage.getItem("auth_token");
+    token = "745b49df3353189c086fcd16cd85d65febcc9b7f";
     const [user, setUser] = useState()
 
 
     async function getUser(auth_token){
-        const res = await fetch("https://homework-collab-production.up.railway.app/auth/users/me/",{
+        // const res = await fetch("https://homework-collab-production.up.railway.app/auth/users/me/",{
+            const res = await fetch("http://127.0.0.1:8000/auth/users/me/",{
             method: "GET",
             
                 headers: {

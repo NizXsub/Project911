@@ -4,10 +4,11 @@ import SpaceCard from './SpaceCard'
 
 const Explore = () => {
   const token = localStorage.getItem("auth_token");
-  const [allSpacesState, setallSpacesState] = React.useState();
+  const [allSpacesState, setallSpacesState] = React.useState([]);
 
   async function fetchAllSpaces(auth_token){
-    const res = await fetch("https://homework-collab-production.up.railway.app/space/all_spaces/",{
+    // const res = await fetch("https://homework-collab-production.up.railway.app/space/all_spaces/",{
+      const res = await fetch("http://127.0.0.1:8000/space/all_spaces/",{
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -22,6 +23,16 @@ const Explore = () => {
 React.useEffect(()=>{
   fetchAllSpaces(token)
 },[])
+
+function cardRenderer(){
+  return allSpacesState.map((card, index) => (
+    // <Exlink to='/dashboard/singlespace'>
+    // console.log(card.name);
+        <SpaceCard key={index} spaceId={card.spaceId} name={card.name} explore={true}/>
+        // console.log(card.name)
+      // </Exlink>
+  ))
+}
 
 
   return (
@@ -51,9 +62,8 @@ React.useEffect(()=>{
             </div>
         </form>
     </div>
-    <div className="explorespaces h-full w-[70%] border-2 flex p-10 gap-10">
-        <SpaceCard explore={true} spaceData={allSpacesState}/>
-        <SpaceCard explore={true} spaceData={allSpacesState}/>
+    <div className="explorespaces h-full w-[80%] border-2 flex flex-wrap p-10 gap-10">
+        {cardRenderer()}
     </div>
     </section>
 
