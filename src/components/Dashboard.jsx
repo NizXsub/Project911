@@ -33,11 +33,18 @@ export default function Dashboard() {
     // // your pre layout code (or 'effect') here.
     
     // }, [])
+    const [scrollDirection, setScrollDirection] = useState(true);
+    window.onscroll = function(e) {
+        // print "false" if direction is down and "true" if up
+        setScrollDirection(this.oldScroll > this.scrollY);
+        console.log(scrollDirection);
+        this.oldScroll = this.scrollY;
+      }
     return(
         <section className='h-screen w-screen relative'>
             {/* <outlet/> */}
             <Outlet/>
-            <Navbar/>
+            <Navbar scroll={scrollDirection}/>
             {/* <Spaces/> */}
         </section>
     )

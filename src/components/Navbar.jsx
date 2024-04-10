@@ -3,7 +3,7 @@ import IconLabelTabs from './IconLabelTabs';
 // import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 
-export default function Navbar(){
+export default function Navbar(props){
     return(
         // <>
         // <nav>
@@ -32,7 +32,7 @@ export default function Navbar(){
         // </nav>
         // </>
 
-        <div className='fixed bottom-4 h-fit w-screen flex justify-center'>
+        <div className={'fixed bottom-4 h-fit w-screen flex justify-center ' + (!props.scroll?"hidden":"")}>
             <div className='w-1/4 border-[4px] border-[rgb(100, 178, 108)] border-solid rounded-full flex justify-center'>
                 <IconLabelTabs/>
             </div>

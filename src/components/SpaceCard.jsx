@@ -16,10 +16,10 @@ const SpaceCard = (props) => {
     <div className="wrapper h-[23rem] w-[18rem] flex flex-col bg-white border-2">
         <div className='h-[40%] w-[100%] relative'>
             <div ref={spaceIdRef} className="spaceid absolute text-white left-2 top-1 text-[13px]">
-                {`Id: ${props.spaceId}`}
+                {`${props.spaceId}`}
             </div>
-            <div className="absolute right-2 top-2">
-            <MdContentCopy className='copy text-white' onClick={copyContent}/>
+            <div className="absolute text-white h-[1.5rem] w-[1.5rem] right-2 bg-gray-500 rounded-full flex justify-center items-center hover:bg-white hover:text-black">
+            <MdContentCopy className='copy' onClick={copyContent}/>
             </div>
             <div className='h-full w-full overflow-hidden flex justify-center items-center'>
                 <img className ="w-full h-full bg-black" src="" alt="Group Background" />
@@ -28,7 +28,7 @@ const SpaceCard = (props) => {
                 {/* <img src={HiMiniUserGroup} alt="Members" /> */}
                 <HiMiniUserGroup className='h-full w-full'/>
                 <div className="count absolute flex h-5 w-5 bg-green-500 justify-center items-center rounded-full text-white top-[-20%] right-[-20%]">
-                    8
+                    {`${props.keyer}`}
                 </div>
             </div>
         </div>

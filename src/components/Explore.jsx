@@ -28,7 +28,7 @@ function cardRenderer(){
   return allSpacesState.map((card, index) => (
     // <Exlink to='/dashboard/singlespace'>
     // console.log(card.name);
-        <SpaceCard key={index} spaceId={card.spaceId} name={card.name} explore={true}/>
+        <SpaceCard keyer={index} spaceId={card.spaceId} name={card.name} explore={true}/>
         // console.log(card.name)
       // </Exlink>
   ))
@@ -39,7 +39,7 @@ function cardRenderer(){
     <>
     <UpperNav/>
 
-    <section className='w-screen h-screen flex flex-col items-center bg-[#f6eff3]'>
+    <section className='w-screen h-auto flex flex-col items-center bg-[#f6eff3]'>
       
     {/* <div className="flex w-full max-w-sm items-center space-x-2">
       <Input type="email" placeholder="Email" />
@@ -62,7 +62,7 @@ function cardRenderer(){
             </div>
         </form>
     </div>
-    <div className="explorespaces h-full w-[80%] border-2 flex flex-wrap p-10 gap-10">
+    <div className="explorespaces h-auto w-[80%] border-2 flex flex-wrap p-10 gap-10">
         {cardRenderer()}
     </div>
     </section>
