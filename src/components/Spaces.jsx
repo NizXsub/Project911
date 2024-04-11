@@ -10,6 +10,7 @@ import CreateSpace from './CreateSpace.jsx';
 export default function Spaces() {
   const token = localStorage.getItem("auth_token");
   const [spacesObj, setspacesObj] = React.useState([]);
+  // const [trackSpaces, setTrackSpaces] = React.useState(props.spaceCount);
 
   async function spaceFetcher(auth_token){
       // const res = await fetch("https://homework-collab-production.up.railway.app/space/",{
@@ -24,6 +25,7 @@ export default function Spaces() {
     const data = await res.json();
     console.log(data);
     setspacesObj(data);
+    // setTrackSpaces(setspacesObj.length);
     // console.log(spacesObj.length)
   }
 
@@ -32,13 +34,18 @@ export default function Spaces() {
     spaceFetcher(token)
 },[])
 
+// React.useEffect(()=>{
+//   // getUser(token);
+//   spaceFetcher(token)
+// },[trackSpaces])
+
 function cardRenderer(){
   return spacesObj.map((card, index) => (
-    // <Exlink to='/dashboard/singlespace'>
-    // console.log(card.name);
+    <Exlink to={`/dashboard/${card.spaceId}`}>
+    {/* // console.log(card.name); */}
         <SpaceCard keyer={index} spaceId={card.spaceId} name={card.name}/>
-        // console.log(card.name)
-      // </Exlink>
+        {/* // console.log(card.name) */}
+      </Exlink>
   ))
 }
 
@@ -52,9 +59,16 @@ function cardRenderer(){
       <Button type="submit">Subscribe</Button>
     </div> */}
     <div className='w-[70%]'>
-    <h1 className='text-[4rem] border-b-[1px] border-solid border-[black] mb-10'>My Spaces</h1>
+      <div className='flex justify-between h-[6rem] items-center'>
+    <h1 className='text-[4rem] '>My Spaces</h1>
+    {!spacesObj.length < 1?
+    <CreateSpace/>
+    :
+    ''
+}
+    </div>
     {!spacesObj.length < 1 ?
-    <div className='h-[75%] border-2 flex flex-wrap gap-5'>
+    <div className='h-[80%] border-2 flex flex-wrap gap-5'>
      {cardRenderer()}
      </div>
     :

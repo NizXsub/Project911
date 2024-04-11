@@ -21,7 +21,7 @@ function App() {
         <Route path='signup' element={<SignUp/>}/>
         <Route path='dashboard' element={<Dashboard/>}>
           <Route index path="spaces" element={<Spaces/>} />
-          <Route path="singlespace" element={<SingleSpace/>}/>
+          <Route path=":spaceId" element={<SingleSpace/>}/>
           <Route path='explore' element={<Explore/>}/>
         </Route> 
         {/* <Route path='singlespace' element={<SingleSpace/>}/> */}

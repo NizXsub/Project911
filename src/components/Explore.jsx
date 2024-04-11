@@ -45,10 +45,9 @@ function cardRenderer(){
       <Input type="email" placeholder="Email" />
       <Button type="submit">Subscribe</Button>
     </div> */}
-    <div className='w-[70%]'>
-    <h1 className='text-[4rem] border-b-[1px] border-solid border-[black] mb-10'>Explore Spaces</h1>
-    </div>
-    <div>
+    {/* border-b-[1px] border-solid border-[black] mb-10 */}
+    <div className='h-[6rem] w-[70%] flex justify-between items-center'>
+    <h1 className='text-[4rem]'>Explore Spaces</h1>
         <form class="w-[50rem]">   
             <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
             <div class="relative">
@@ -62,16 +61,10 @@ function cardRenderer(){
             </div>
         </form>
     </div>
-    <div className="explorespaces h-auto w-[80%] border-2 flex flex-wrap p-10 gap-10">
+    <div className="explorespaces h-auto w-[75%] border-2 flex flex-wrap p-10 gap-10 justify-center">
         {cardRenderer()}
     </div>
     </section>
-
-
-
-
-
-
     </>
   )
 }

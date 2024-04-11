@@ -7,13 +7,20 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { FiPlus } from "react-icons/fi";
-import { RxCross2 } from "react-icons/rx";
+// import { RxCross2 } from "react-icons/rx";
+// import Spaces from './Spaces.jsx';
+// import { Console } from 'console';
 
 export default function FormDialog() {
+
   const token = localStorage.getItem("auth_token");
     // const [requestData, setrequestData] = React.useState()
+  // const [spaces, setSpaces] = React.useState(0);
+  
     
-
+    // function dataPasser(num){
+    //   return <Spaces spaceCount={num}/>
+    // }
 
     async function createSpace(auth_token, rdata){
         // const res = await fetch("https://homework-collab-production.up.railway.app/space/create_space/",{
@@ -26,8 +33,21 @@ export default function FormDialog() {
                   },
             body: JSON.stringify(rdata)
         });
+
         const data = await res.json()
-        console.log('Response:', data);
+        
+        if(!res.ok){
+          alert(data)
+
+        }else{
+
+          console.log('Response:', data);
+          // setSpaces(spaces+1);
+          // Console.log(spaces);
+          // dataPasser(spaces);
+          // Props.spaces += 1;
+        }
+        
 
         
         // setUser(data)

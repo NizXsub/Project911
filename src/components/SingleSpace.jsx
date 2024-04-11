@@ -4,10 +4,14 @@ import { MdDateRange } from "react-icons/md";
 import UpperNav from './UpperNav';
 import CreateNotice from './CreateNotice.jsx'
 import CreatePortal from './CreatePortal.jsx'
+import {useParams} from 'react-router-dom'
 // import { FaChalkboardTeacher } from "react-icons/fa";
 
 
-const SingleSpace = () => {
+export default function SingleSpace(){
+    const {spaceId} = useParams();
+    console.log(spaceId);
+    
     const [file, setFile] = useState()
 
     function handleChange(event) {
@@ -121,4 +125,3 @@ const SingleSpace = () => {
   )
 }
 
-export default SingleSpace
