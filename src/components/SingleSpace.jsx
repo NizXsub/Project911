@@ -1,16 +1,53 @@
-import {React, useState} from 'react'
+import {React, useState, useEffect} from 'react'
 import { CgProfile } from "react-icons/cg";
 import { MdDateRange } from "react-icons/md";
 import UpperNav from './UpperNav';
 import CreateNotice from './CreateNotice.jsx'
 import CreatePortal from './CreatePortal.jsx'
 import {useParams} from 'react-router-dom'
+import { space } from 'postcss/lib/list';
+import NoticeCard from './NoticeCard';
 // import { FaChalkboardTeacher } from "react-icons/fa";
 
 
 export default function SingleSpace(){
     const {spaceId} = useParams();
-    console.log(spaceId);
+    // console.log(spaceId);
+
+
+    const token = localStorage.getItem("auth_token");
+  const [noticesObj, setnoticesObj] = useState([]);
+  // const [trackSpaces, setTrackSpaces] = React.useState(props.spaceCount);
+
+  async function noticeFetcher(auth_token){
+      // const res = await fetch("https://homework-collab-production.up.railway.app/space/",{
+        const res = await fetch(`http://127.0.0.1:8000/space/notice/${spaceId}/`,{
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Token "+ auth_token.toString()
+          },
+  
+    })
+    const data = await res.json();
+    // console.log(data);
+    setnoticesObj(data);
+    console.log(noticesObj)
+    // setTrackSpaces(setspacesObj.length);
+    // console.log(spacesObj.length)
+  }
+
+  useEffect(()=>{
+    // getUser(token);
+    noticeFetcher(token)
+},[])
+
+function noticeRenderer(){
+    return noticesObj.map((notice, index) => (
+        <NoticeCard keyer={index} created_at={notice.created_at} title={notice.title} content={notice.content} created_by={notice.creator_name}/>
+    ))}
+
+
     
     const [file, setFile] = useState()
 
@@ -48,7 +85,7 @@ export default function SingleSpace(){
     </div>
     <div className="allcontent bg-white h-[full] w-[72%] overflow-y-auto border-2 border-solid flex flex-col justify-between p-2">
         { true ?
-            <CreateNotice/>
+            <CreateNotice spaceId={spaceId}/>
             :
             ''
         }
@@ -56,7 +93,7 @@ export default function SingleSpace(){
         <div className="noticeboard bg-[#004830] h-[50%] w-full border-[10px] border-solid border-white text-white p-3 shadow-lg overflow-y-auto">
 
             Notices:
-            <div className="notice relative h-fit w-full p-10 border-2 border-solid border-white my-2">
+            {/* <div className="notice relative h-fit w-full p-10 border-2 border-solid border-white my-2">
                 <div className="noticedate absolute top-2 left-2 flex gap-2 items-center">
                     <MdDateRange className='scale-[1.5]'/>
                     <div className="date font-bold text-[14px]">
@@ -71,7 +108,14 @@ export default function SingleSpace(){
                     - Teacher
                 </div>
                 
-            </div>
+            </div> */}
+            {!noticesObj.length == 0?
+                noticeRenderer()
+                :
+                <div className='text-white text-[3rem]'>No Notices to Render in this Space</div>
+            }
+            
+
         </div>
         <div className="portalwrapper h-[47%] bg-white w-full shadow-lg flex flex-col overflow-y-auto p-2">
             <div className='flex justify-between my-3'>
@@ -79,7 +123,7 @@ export default function SingleSpace(){
                 Active Portals:
                 </p>
                         { true ?
-                    <CreatePortal/>
+                    <CreatePortal spaceId={spaceId}/>
                     :
                     ''
                 }

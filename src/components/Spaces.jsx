@@ -68,7 +68,7 @@ function cardRenderer(){
 }
     </div>
     {!spacesObj.length < 1 ?
-    <div className='h-[80%] border-2 flex flex-wrap gap-5'>
+    <div className='h-[80%] p-5 border-2 flex flex-wrap gap-5'>
      {cardRenderer()}
      </div>
     :
