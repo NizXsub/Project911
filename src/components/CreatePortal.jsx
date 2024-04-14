@@ -9,7 +9,53 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { FiPlus } from "react-icons/fi";
 // import { RxCross2 } from "react-icons/rx";
 
-export default function FormDialog() {
+export default function FormDialog(props) {
+  const token = localStorage.getItem("auth_token");
+  // const [requestData, setrequestData] = React.useState()
+// const [spaces, setSpaces] = React.useState(0);
+
+  
+  // function dataPasser(num){
+  //   return <Spaces spaceCount={num}/>
+  // }
+
+  async function createPortal(auth_token, rdata){
+      // const res = await fetch("https://homework-collab-production.up.railway.app/space/create_space/",{
+        const res = await fetch(`http://127.0.0.1:8000/space/portal/${props.spaceId}/create_portal/`,{
+          method: "POST",
+          
+              headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": "Token "+ auth_token.toString()
+                },
+          body: JSON.stringify(rdata)
+      });
+
+      const data = await res.json()
+      
+      if(!res.ok){
+        alert(data)
+
+      }else{
+
+        console.log('Response:', data);
+        alert(`${data.message}`)
+        // setSpaces(spaces+1);
+        // Console.log(spaces);
+        // dataPasser(spaces);
+        // Props.spaces += 1;
+      }
+      
+
+      
+      // setUser(data)
+  }
+
+
+
+
+
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -35,8 +81,12 @@ export default function FormDialog() {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
-            const email = formJson.email;
-            console.log(email);
+            const portalTitle = formJson.portal;
+            // const noticeContent = formJson.notice_content;
+            const requestData= {"name": `${portalTitle}`};
+            // console.log(requestData);
+            createPortal(token, requestData);
+            // handleClose();
             handleClose();
           },
         }}
@@ -45,6 +95,7 @@ export default function FormDialog() {
         <DialogContent>
           <DialogContentText>
             You can create a portal to gather assesments files your Students or fellows. Fill up the following information to do so.
+            By default, portals are created for three days, starting from the moment you create one.
           </DialogContentText>
           <TextField
             autoFocus
@@ -57,18 +108,37 @@ export default function FormDialog() {
             fullWidth
             variant="standard"
           />
-          <TextField
+          {/* <TextField
             autoFocus
             required
             margin="dense"
+            id="notice_content"
+            name="notice_content"
+            label="Notice Content:"
+            type="text"
+            fullWidth
+            variant="standard"
+          /> */}
+          <TextField
+            autoFocus
+            margin="dense"
             id="sdate"
             name="sdate"
-            label="Start Notice"
+            label="From:"
             type="date"
             fullWidth
             variant="standard"
           />
-
+          <TextField
+            autoFocus
+            margin="dense"
+            id="edate"
+            name="edate"
+            label="To:"
+            type="date"
+            fullWidth
+            variant="standard"
+          />
 
         </DialogContent>
         <DialogActions>
