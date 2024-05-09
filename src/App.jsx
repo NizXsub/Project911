@@ -9,6 +9,7 @@ import Navbar from './components/Navbar';
 import Spaces from './components/Spaces';
 import SingleSpace from './components/SingleSpace';
 import Explore from './components/Explore';
+import MCQ from './components/MCQ'
 
 function App() {
 
@@ -17,18 +18,15 @@ function App() {
     <Routes>
         <Route path="/" element={<Landing/>} />
         <Route path="signin" element={<Signin/>} />
-        {/* <Route path='dashboard' element={<Dashboard/>}/> */}
         <Route path='signup' element={<SignUp/>}/>
         <Route path='dashboard' element={<Dashboard/>}>
           <Route index path="spaces" element={<Spaces/>} />
           <Route path=":spaceId" element={<SingleSpace/>}/>
           <Route path='explore' element={<Explore/>}/>
+          
         </Route> 
-        {/* <Route path='singlespace' element={<SingleSpace/>}/> */}
+        <Route path='mcq' element={<MCQ/>}/>
     </Routes>
-    {/* <div className='absolute bottom-4 h-fit w-screen flex justify-center'>
-      <Navbar/>
-    </div> */}
     </BrowserRouter>
   )
 }

@@ -20,6 +20,7 @@ export default function UpperNav(){
         })
         const data = await res.json();
         setUser(data)
+        // console.log(setUser)
     }
 
     useEffect(()=>{

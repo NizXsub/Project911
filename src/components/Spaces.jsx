@@ -52,7 +52,7 @@ function cardRenderer(){
   return (
     <>
     <UpperNav/>
-    <section className='w-screen h-screen flex justify-center bg-[#f6eff3]'>
+    <section className='w-screen h-fit flex justify-center bg-[#f6eff3]'>
       
     {/* <div className="flex w-full max-w-sm items-center space-x-2">
       <Input type="email" placeholder="Email" />

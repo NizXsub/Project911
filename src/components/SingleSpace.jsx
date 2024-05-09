@@ -1,4 +1,5 @@
 import {React, useState, useEffect} from 'react'
+import {Link as Exlink} from 'react-router-dom';
 import { CgProfile } from "react-icons/cg";
 import { MdDateRange } from "react-icons/md";
 import UpperNav from './UpperNav';
@@ -8,10 +9,15 @@ import {useParams} from 'react-router-dom'
 import { space } from 'postcss/lib/list';
 import NoticeCard from './NoticeCard';
 import PortalCard from './PortalCard';
+import { IoCalendar } from "react-icons/io5";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 // import { FaChalkboardTeacher } from "react-icons/fa";
 
 
 export default function SingleSpace(){
+    const [startDate, setStartDate] = useState(new Date());
+
     const {spaceId} = useParams();
     // console.log(spaceId);
 
@@ -228,6 +234,28 @@ function portalRenderer(){
             </div>
         </div>
 
+    </div>
+    <div className="resources relative w-[13%] h-full bg-white shadow-lg">
+        <div className="calendar p-4 flex">
+            Events: 
+            <div className='absolute left-[84%] top-5'>
+            {<IoCalendar className='scale-[300%]'/>}
+            </div>
+         <div>
+      <DatePicker
+        selected={startDate}
+        onChange={(date) => setStartDate(date)}
+        dateFormat="MMMM d, yyyy"
+        showPopperArrow={false}
+        className='absolute top-10 w-[7rem] border-[1px] border-gray-300 text-center'
+      />
+    </div>
+            <div className='absolute bottom-5'>
+                <Exlink className='p-2 border-[1px] border-black' to={'/mcq'}>
+                MCQs
+                </Exlink>
+            </div>
+        </div>
     </div>
     </div>
     </div>

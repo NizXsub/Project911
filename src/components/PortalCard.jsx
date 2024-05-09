@@ -60,7 +60,6 @@ export default function PortalCard(props){
     </div>
         <div className='bg-slate-100 w-full flex justify-between items-center p-3'>
         <input type="file" onChange={handleChange}/>
-        <button type="submit" className='bg-[#76FF7A] text-black font-bold text-[1.2rem] h-[2.5rem] w-[7rem] border-[1px] border-solid hover:border-2 hover:border-black'>Upload</button>
         </div>
     </>
                 
