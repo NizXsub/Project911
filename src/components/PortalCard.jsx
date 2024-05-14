@@ -1,6 +1,9 @@
 import React from 'react'
+import {api} from './variables.js'
 
 export default function PortalCard(props){
+    let token = localStorage.getItem("auth_token");
+
     function dateFormat(dateItem){
         // const dateTimeString = "2024-04-13T22:20:59.694475+05:45";
     
@@ -22,11 +25,52 @@ export default function PortalCard(props){
      return formattedDateTime;
         }
 
-        const [file, setFile] = React.useState()
+    const [file, setFile] = React.useState(null)
 
     function handleChange(event) {
       setFile(event.target.files[0])
+      setSubStatus(false);
+    //   console.log(file);
     }
+
+    const [subStatus, setSubStatus] = React.useState(false);
+
+
+    async function submitPortal(auth_token, rdata){
+        const formData = new FormData();
+        formData.append('submission', rdata);
+        // const res = await fetch("https://homework-collab-production.up.railway.app/space/create_space/",{
+          const res = await fetch(`${api}/space/portal/${props.spaceId}/${props.portalId}/submit/`,{
+            method: "POST",
+            
+                headers: {
+                    // "Content-Type": "multipart/form-data",
+                    "Authorization": "Token "+ auth_token.toString()
+                  },
+            body: formData
+        });
+  
+        const data = await res.json()
+        
+        if(!res.ok){
+          alert("File submission failed")
+  
+        }else{
+            // console.log(rdata);
+          console.log('Response:', data.message);
+          alert('File submitted successfully!!GJ');
+          setSubStatus(true);
+          // setSpaces(spaces+1);
+          // Console.log(spaces);
+          // dataPasser(spaces);
+          // Props.spaces += 1;
+        }
+        
+  
+        
+        // setUser(data)
+    }
+  
 
 
   return (
@@ -39,8 +83,11 @@ export default function PortalCard(props){
                 
             </div>
             <div className="portaldescription border-[1px] border-solid p-2 text-justify">
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate minus sequi fugit dicta. Reprehenderit nulla eveniet molestiae consequuntur pariatur voluptatum illum hic voluptas facilis voluptatibus. Deleniti voluptas rerum delectus ex.
-
+                {!props.des == ""?
+                    props.des:
+                
+                `Lorem ipsum dolor sit amet consectetur, adipisicing elit. Cupiditate minus sequi fugit dicta. Reprehenderit nulla eveniet molestiae consequuntur pariatur voluptatum illum hic voluptas facilis voluptatibus. Deleniti voluptas rerum delectus ex.`
+                }
             </div>
             <div className="portalby font-bold">
             {/* <FaChalkboardTeacher className='scale-[1.5]'/> */}
@@ -61,9 +108,14 @@ export default function PortalCard(props){
     {!props.iamTeacher?
         <div className='bg-slate-100 w-full flex justify-between items-center p-3'>
         <input type="file" onChange={handleChange}/>
-        <button type="submit" onClick={() => joinReq(token)} className='bg-[#76FF7A] text-black font-bold text-[1.2rem] h-[2.5rem] w-[7rem] border-[1px] border-solid hover:border-2 hover:border-black'>
+        {!subStatus?
+        <button type="submit" onClick={() => submitPortal(token, file)} className='bg-[#76FF7A] text-black font-bold text-[1.2rem] h-[2.5rem] w-[7rem] border-[1px] border-solid hover:border-2 hover:border-black'>
             Submit
-        </button>
+        </button>:
+        <button type="submit" className='bg-[#e7e7e7] text-black font-bold text-[1.2rem] h-[2.5rem] w-[7rem] border-[1px] border-solid hover:border-2 hover:border-black'>
+        Submitted
+         </button>}
+
         </div>
         :
         ""

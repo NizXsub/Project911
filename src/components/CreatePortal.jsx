@@ -85,8 +85,9 @@ export default function FormDialog(props) {
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
             const portalTitle = formJson.portal;
+            const portalDes = formJson.portalDes
             // const noticeContent = formJson.notice_content;
-            const requestData= {"name": `${portalTitle}`};
+            const requestData= {"name": `${portalTitle}`, "description": `${portalDes}`};
             // console.log(requestData);
             createPortal(token, requestData);
             // handleClose();
@@ -107,6 +108,17 @@ export default function FormDialog(props) {
             id="portal"
             name="portal"
             label="Portal Title"
+            type="text"
+            fullWidth
+            variant="standard"
+          />
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="portalDes"
+            name="portalDes"
+            label="Portal Description"
             type="text"
             fullWidth
             variant="standard"

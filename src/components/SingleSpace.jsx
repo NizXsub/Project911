@@ -120,7 +120,7 @@ function noticeRenderer(){
 
 function portalRenderer(){
     return portalObj.map((portal, index) => (
-        <PortalCard keyer={index} created_at={portal.created_at} deadline={portal.deadline} name={portal.name} created_by={portal.created_by} iamTeacher={iamTeacher}/>
+        <PortalCard keyer={index} created_at={portal.created_at} deadline={portal.deadline} name={portal.name} created_by={portal.created_by} iamTeacher={iamTeacher} spaceId={spaceId} portalId={portal.portalId} des={portal.description}/>
     ))}
     
 
