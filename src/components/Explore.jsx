@@ -1,6 +1,7 @@
 import React from 'react'
 import UpperNav from './UpperNav'
 import SpaceCard from './SpaceCard'
+import {api} from './variables.js'
 
 const Explore = () => {
   const token = localStorage.getItem("auth_token");
@@ -8,7 +9,7 @@ const Explore = () => {
 
   async function fetchAllSpaces(auth_token){
     // const res = await fetch("https://homework-collab-production.up.railway.app/space/all_spaces/",{
-      const res = await fetch("http://127.0.0.1:8000/space/all_spaces/",{
+      const res = await fetch(`${api}/space/all_spaces/`,{
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -24,8 +25,9 @@ React.useEffect(()=>{
   fetchAllSpaces(token)
 },[])
 
-function cardRenderer(){
-  return allSpacesState.map((card, index) => (
+function cardRenderer(spaces){
+  // let card;
+  return spaces.map((card, index) => (
     // <Exlink to='/dashboard/singlespace'>
     // console.log(card.name);
         <SpaceCard keyer={index} spaceId={card.spaceId} name={card.name} explore={true}/>
@@ -39,7 +41,7 @@ function cardRenderer(){
     <>
     <UpperNav/>
 
-    <section className='w-screen h-auto flex flex-col items-center bg-[#f6eff3]'>
+    <section className='w-screen h-auto flex flex-col items-center'>
       
     {/* <div className="flex w-full max-w-sm items-center space-x-2">
       <Input type="email" placeholder="Email" />
@@ -62,7 +64,7 @@ function cardRenderer(){
         </form>
     </div>
     <div className="explorespaces h-auto w-[75%] border-2 flex flex-wrap p-10 gap-10 justify-center">
-        {cardRenderer()}
+        {cardRenderer(allSpacesState)}
     </div>
     </section>
     </>

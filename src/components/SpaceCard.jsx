@@ -3,14 +3,45 @@ import { HiMiniUserGroup } from "react-icons/hi2";
 import { BiTask } from "react-icons/bi";
 import './SpaceCard.css';
 import { MdContentCopy } from "react-icons/md";
+import {api} from "./variables.js"
 
 const SpaceCard = (props) => {
+    let token = localStorage.getItem("auth_token");
+    const [joinState, setJoinState] = React.useState(false)
+
     const spaceIdRef = React.useRef(null);
     const copyContent = () =>{
         // const spaceIdContent = spaceIdRef.current.innerText;
         navigator.clipboard.writeText(props.spaceId);
         alert("SpaceId Copied!");
     }
+    async function joinReq(auth_token){
+        const res = await fetch(`${api}/space/${props.spaceId}/send_request/`,{
+            method: "POST",
+            
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Token "+ auth_token.toString()
+                  }
+            // body: {
+
+            // }
+        });
+
+        const data = await res.json()
+        
+        if(!res.ok){
+          alert(data)
+
+        }else{
+          console.log('Response:', data);
+          alert(`Join Request has been sent to ${props.name}`)
+          setJoinState(true)
+
+        }
+        
+    }
+
 
   return (
     <div className="wrapper h-[23rem] w-[18rem] flex flex-col bg-white border-2">
@@ -50,7 +81,15 @@ const SpaceCard = (props) => {
                 </div>
                 :
                 <div>
-                    <button type="submit" className='bg-[#76FF7A] text-black font-bold text-[1.2rem] h-[2.5rem] w-[7rem] border-[1px] border-solid hover:border-2 hover:border-black'>Join</button>
+                    {!joinState?
+                    <button type="submit" onClick={() => joinReq(token)} className='bg-[#76FF7A] text-black font-bold text-[1.2rem] h-[2.5rem] w-[7rem] border-[1px] border-solid hover:border-2 hover:border-black'>
+                        Join
+                    </button>
+                    :
+                    <button type="submit" className='bg-[#6c796d] text-black font-bold text-[1.2rem] h-[2.5rem] w-[7rem] border-[1px] border-solid hover:border-2 hover:border-black'>
+                        Pending
+                    </button>
+                    }
                 </div>
 
             }

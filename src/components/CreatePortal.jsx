@@ -7,6 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { FiPlus } from "react-icons/fi";
+import {api} from './variables.js';
 // import { RxCross2 } from "react-icons/rx";
 
 export default function FormDialog(props) {
@@ -21,7 +22,7 @@ export default function FormDialog(props) {
 
   async function createPortal(auth_token, rdata){
       // const res = await fetch("https://homework-collab-production.up.railway.app/space/create_space/",{
-        const res = await fetch(`http://127.0.0.1:8000/space/portal/${props.spaceId}/create_portal/`,{
+        const res = await fetch(`${api}/space/portal/${props.spaceId}/create_portal/`,{
           method: "POST",
           
               headers: {
@@ -40,6 +41,8 @@ export default function FormDialog(props) {
 
         console.log('Response:', data);
         alert(`${data.message}`)
+        props.fetcher(token);
+        props.renderer();
         // setSpaces(spaces+1);
         // Console.log(spaces);
         // dataPasser(spaces);

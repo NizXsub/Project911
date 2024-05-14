@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link as Exlink } from 'react-router-dom'
+import {api} from './variables.js';
 
 function Copyright(props) {
   return (
@@ -35,7 +36,7 @@ export default function SignIn() {
   const handleSubmit = async(event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const res = await fetch("https://homework-collab-production.up.railway.app/auth/token/login/",
+    const res = await fetch(`${api}/auth/token/login/`,
     {
       method: "POST",
       headers: {

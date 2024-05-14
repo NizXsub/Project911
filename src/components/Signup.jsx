@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {Link as Exlink} from 'react-router-dom';
+import {api} from './variables.js';
 
 function Copyright(props) {
   return (
@@ -42,7 +43,7 @@ export default function SignUp() {
       alert("password not matching")
       return;
     }
-    const res = await fetch("https://homework-collab-production.up.railway.app/auth/users/",
+    const res = await fetch(`${api}/auth/users/`,
     {
       method: "POST",
       headers: {
@@ -57,7 +58,7 @@ export default function SignUp() {
     )
     
     if(res.ok){
-      window.location.href="/login"
+      window.location.href="/Signin"
     }else{
       const x = await res.json()
       alert(`${x.username == undefined ? "":x.username}\n${x.email == undefined ? "":x.email}\n${x.password == undefined ? "":x.password}`)

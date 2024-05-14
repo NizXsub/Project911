@@ -3,8 +3,9 @@ import SpaceCard from './SpaceCard';
 import { Link as Exlink } from 'react-router-dom';
 import UpperNav from './UpperNav';
 import CreateSpace from './CreateSpace.jsx';
-// import { Button } from "@/components/ui/button"
-// import { Input } from "@/components/ui/input"
+import {api} from './variables.js';
+// import { createContainer } from "unstated-next";
+
 
 
 export default function Spaces() {
@@ -14,7 +15,7 @@ export default function Spaces() {
 
   async function spaceFetcher(auth_token){
       // const res = await fetch("https://homework-collab-production.up.railway.app/space/",{
-        const res = await fetch("http://127.0.0.1:8000/space/",{
+        const res = await fetch(`${api}/space/`,{
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -23,16 +24,32 @@ export default function Spaces() {
   
     })
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
     setspacesObj(data);
+    // return data;
     // setTrackSpaces(setspacesObj.length);
     // console.log(spacesObj.length)
   }
+
+  // const useData = () =>{
+  //   const [spaceData, setspaceData] = React.useState(spacesObj.length);
+  //   const spaceAdder =() =>{
+  //     return setspaceData(spaceData+1);
+  //   }
+  //   return {spaceData, spaceAdder};
+  // }
+  // const spaceDataContainer = createContainer(useData);
+ 
+
 
   React.useEffect(()=>{
     // getUser(token);
     spaceFetcher(token)
 },[])
+
+// React.useLayoutEffect(() => {
+//   spaceFetcher(token)
+// })
 
 // React.useEffect(()=>{
 //   // getUser(token);
@@ -41,34 +58,39 @@ export default function Spaces() {
 
 function cardRenderer(){
   return spacesObj.map((card, index) => (
-    <Exlink to={`/dashboard/${card.spaceId}`}>
+    <Exlink to={`/dashboard/${card.spaceId}/${card.name}`}>
     {/* // console.log(card.name); */}
+    {/* <spaceDataContainer.Provider> */}
         <SpaceCard keyer={index} spaceId={card.spaceId} name={card.name}/>
+    {/* </spaceDataContainer.Provider> */}
         {/* // console.log(card.name) */}
       </Exlink>
+
   ))
 }
-
+  // return spaceFetcher
   return (
     <>
     <UpperNav/>
-    <section className='w-screen h-fit flex justify-center bg-[#f6eff3]'>
+    <section className='w-screen h-fit flex justify-center'>
+    {/* bg-[#f6eff3] */}
       
     {/* <div className="flex w-full max-w-sm items-center space-x-2">
       <Input type="email" placeholder="Email" />
       <Button type="submit">Subscribe</Button>
     </div> */}
+
     <div className='w-[70%]'>
       <div className='flex justify-between h-[6rem] items-center'>
     <h1 className='text-[4rem] '>My Spaces</h1>
     {!spacesObj.length < 1?
-    <CreateSpace/>
+    <CreateSpace func={spaceFetcher}/>
     :
     ''
 }
     </div>
     {!spacesObj.length < 1 ?
-    <div className='h-[80%] p-5 border-2 flex flex-wrap gap-5'>
+    <div className='h-[fit] p-5 border-2 flex flex-wrap gap-5'>
      {cardRenderer()}
      </div>
     :
@@ -76,12 +98,15 @@ function cardRenderer(){
       <p>
         You don't have joined any spaces..
       </p>
-      <CreateSpace/>
+      <CreateSpace func={spaceFetcher}/>
       </div>
     }
     
     </div>
     </section>
     </>
+    // spaceFetcher
+  
   )
 }
+// export const spaceDataContainer = createContainer(useData);

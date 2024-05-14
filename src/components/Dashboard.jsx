@@ -37,7 +37,7 @@ export default function Dashboard() {
     window.onscroll = function(e) {
         // print "false" if direction is down and "true" if up
         setScrollDirection(this.oldScroll > this.scrollY);
-        console.log(scrollDirection);
+        // console.log(scrollDirection);
         this.oldScroll = this.scrollY;
       }
     return(

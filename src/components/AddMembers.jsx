@@ -7,6 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { FiPlus } from "react-icons/fi";
+import { BiSolidUserPlus } from "react-icons/bi";
 import {api} from './variables.js';
 // import { RxCross2 } from "react-icons/rx";
 
@@ -20,16 +21,16 @@ export default function FormDialog(props) {
     //   return <Spaces spaceCount={num}/>
     // }
 
-    async function createNotice(auth_token, rdata){
+    async function addMember(auth_token, member_id){
         // const res = await fetch("https://homework-collab-production.up.railway.app/space/create_space/",{
-          const res = await fetch(`${api}/space/${props.spaceId}/notice/`,{
+          const res = await fetch(`${api}/space/add_member/${props.spaceId}/${member_id}/`,{
             method: "POST",
             
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": "Token "+ auth_token.toString()
                   },
-            body: JSON.stringify(rdata)
+            // body: JSON.stringify(rdata)
         });
 
         const data = await res.json()
@@ -40,9 +41,11 @@ export default function FormDialog(props) {
         }else{
 
           console.log('Response:', data);
-          alert(`${data.title} notice has been created`)
+          alert(`${member_id} member has been added`)
           props.fetcher(token);
           props.renderer();
+        //   props.fetcher(token);
+        //   props.renderer();
           // setSpaces(spaces+1);
           // Console.log(spaces);
           // dataPasser(spaces);
@@ -70,9 +73,10 @@ export default function FormDialog(props) {
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen} className="w-[13rem]">
-      <FiPlus className='scale-[2] mr-3'/>
-        Create a Notice
+      <Button variant="outlined" onClick={handleClickOpen} className="w-[3rem]">
+      {/* <FiPlus className='scale-[2] color-black'/> */}
+      <BiSolidUserPlus className='scale-[2] color-black'/>
+        {/* Create a Notice */}
       </Button>
       <Dialog
         open={open}
@@ -83,72 +87,40 @@ export default function FormDialog(props) {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
             const formJson = Object.fromEntries(formData.entries());
-            const noticeTitle = formJson.notice_title;
-            const noticeContent = formJson.notice_content;
-            const requestData= {"title": `${noticeTitle}`, "content": `${noticeContent}`};
-            console.log(requestData);
-            createNotice(token, requestData);
+            const memberId = formJson.member_id;
+            // const noticeContent = formJson.notice_content;
+        //     const requestData= {"id": `${memberId}`
+        //     // , "content": `${noticeContent}`
+        // };
+            // console.log(requestData);
+            addMember(token, memberId);
             handleClose();
           },
         }}
       >
-        <DialogTitle>Create Notice</DialogTitle>
+        <DialogTitle>Add members</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {`You can Create a Notice to notify your Students or fellows. Fill up the following information to do so.
-            Note: Notices by default set from the time you create it upto next 3 days. You can pick dates for edits.`}
+            {`You can add members to your space with their IDs.`}
           </DialogContentText>
           <TextField
             autoFocus
             required
             margin="dense"
-            id="notice_title"
-            name="notice_title"
-            label="Notice Title:"
-            type="text"
+            id="member_id"
+            name="member_id"
+            label="Member Id:"
+            type="text"g
             fullWidth
             variant="standard"
           />
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="notice_content"
-            name="notice_content"
-            label="Notice Content:"
-            type="text"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="sdate"
-            name="sdate"
-            label="From:"
-            type="date"
-            fullWidth
-            variant="standard"
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="edate"
-            name="edate"
-            label="To:"
-            type="date"
-            fullWidth
-            variant="standard"
-          />
-
-
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>
           {/* <RxCross2 /> */}
             Cancel
             </Button>
-          <Button type="submit">Create</Button>
+          <Button type="submit">Add</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

@@ -1,24 +1,48 @@
-import {React, useState, useEffect} from 'react'
+import {React, useState, useEffect, useLayoutEffect} from 'react'
 import {Link as Exlink} from 'react-router-dom';
 import { CgProfile } from "react-icons/cg";
-import { MdDateRange } from "react-icons/md";
+// import { MdDateRange } from "react-icons/md";
 import UpperNav from './UpperNav';
 import CreateNotice from './CreateNotice.jsx'
 import CreatePortal from './CreatePortal.jsx'
 import {useParams} from 'react-router-dom'
-import { space } from 'postcss/lib/list';
+// import { space } from 'postcss/lib/list';
 import NoticeCard from './NoticeCard';
 import PortalCard from './PortalCard';
 import { IoCalendar } from "react-icons/io5";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { SlPlus } from "react-icons/sl";
+import AddMembers from "./AddMembers"
+import {api} from './variables.js';
+import { RxCrossCircled } from "react-icons/rx";
 // import { FaChalkboardTeacher } from "react-icons/fa";
 
 
 export default function SingleSpace(){
+    const [iamTeacher, setiamTeacher] = useState(false);
+    const [user, setUser] = useState();
+    async function getUser(auth_token){
+        // const res = await fetch("https://homework-collab-production.up.railway.app/auth/users/me/",{
+            const res = await fetch(`${api}/auth/users/me/`,{
+            method: "GET",
+            
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Token "+ auth_token.toString()
+                  },
+            
+        })
+        const data = await res.json();
+        // console.log(data.username);
+        setUser(data.username)
+        // console.log(user)
+    }
+
     const [startDate, setStartDate] = useState(new Date());
 
     const {spaceId} = useParams();
+    const {name} = useParams()
     // console.log(spaceId);
 
 
@@ -28,7 +52,7 @@ export default function SingleSpace(){
 
   async function noticeFetcher(auth_token){
       // const res = await fetch("https://homework-collab-production.up.railway.app/space/",{
-        const res = await fetch(`http://127.0.0.1:8000/space/notice/${spaceId}/`,{
+        const res = await fetch(`${api}/space/${spaceId}/notice/`,{
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -49,7 +73,7 @@ export default function SingleSpace(){
 
   async function portalFetcher(auth_token){
       // const res = await fetch("https://homework-collab-production.up.railway.app/space/",{
-        const res = await fetch(`http://127.0.0.1:8000/space/portal/${spaceId}/create_portal/`,{
+        const res = await fetch(`${api}/space/portal/${spaceId}/create_portal/`,{
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -60,16 +84,33 @@ export default function SingleSpace(){
     const data = await res.json();
     // console.log(data);
     setportalObj(data);
-    console.log(portalObj)
+    // console.log(portalObj)
     // setTrackSpaces(setspacesObj.length);
     // console.log(spacesObj.length)
   }
 
-  useEffect(()=>{
-    // getUser(token);
-    noticeFetcher(token)
-    portalFetcher(token)
-},[])
+//   useLayoutEffect(()=>{
+//     // getUser(token);
+//     noticeFetcher(token)
+//     portalFetcher(token)
+//     memFetcher(token)
+//     getUser(token);
+//     // const usrn = user;
+//     // console.log(user);
+    
+//     console.log(iamTeacher);
+//     // console.log(user);
+//     // console.log("this ran");
+//     // {if(iamTeacher){
+//     //     reqMemFetcher(token);
+//     //     console.log("this ran");
+//     // }
+//     // }
+// },[token])
+// useLayoutEffect(()=>{
+//     amiTeacher(user, memList);
+// },[user, memList])
+
 
 function noticeRenderer(){
     return noticesObj.map((notice, index) => (
@@ -79,7 +120,7 @@ function noticeRenderer(){
 
 function portalRenderer(){
     return portalObj.map((portal, index) => (
-        <PortalCard keyer={index} created_at={portal.created_at} deadline={portal.deadline} name={portal.name} created_by={portal.created_by}/>
+        <PortalCard keyer={index} created_at={portal.created_at} deadline={portal.deadline} name={portal.name} created_by={portal.created_by} iamTeacher={iamTeacher}/>
     ))}
     
 
@@ -90,37 +131,273 @@ function portalRenderer(){
       setFile(event.target.files[0])
     }
 
+
+    // `${api}/space/${spaceId}/members/`
+    const [memList, setMemList] = useState([]);
+
+    async function memFetcher(auth_token){
+        const res = await fetch(`${api}/space/${spaceId}/members/`,{
+            method: "GET",
+            
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Token "+ auth_token.toString()
+                  }
+            // body: {
+
+            // }
+        });
+
+        const data = await res.json()
+        
+        if(!res.ok){
+          alert(data)
+
+        }else{
+        setMemList(data);
+        //   console.log('Response:', data);
+        //   alert(`Join Request has been sent to ${props.name}`)
+        //   setJoinState(true)
+
+        }
+        
+    }
+    function memRenderer(){
+        return memList.map((mem, index) => (
+            <div className="eachmember h-[2rem] w-full px-1 bg-[#D9E5D6] border-[1px] flex items-center justify-between">
+                <div className="profile h-[1.5rem] w-[1.5rem] bg-white flex items-center justify-center rounded-full">
+                    <CgProfile className='scale-[1.5]'/>
+                </div>
+                <div className="name px-2 w-[fit] bg-[#0FA3B1] text-center text-white overflow-hidden">
+                    {mem.user_username}
+                </div>
+                <div className="role bg-[#d5c3b9] px-1 w-[4rem] text-center text-white overflow-hidden">
+                    {!mem.is_teacher?
+                    "Member"
+                    :
+                    "Teacher"
+                    }    
+                </div>
+            </div>
+            
+            
+        ))}
+
+        const [reqMemList, setReqMemList] = useState([]);
+
+        async function reqMemFetcher(auth_token){
+            const res = await fetch(`${api}/space/${spaceId}/request_manager/`,{
+                method: "GET",
+                
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Token "+ auth_token.toString()
+                      }
+                // body: {
+    
+                // }
+            });
+    
+            const data = await res.json()
+            
+            if(!res.ok){
+              alert(data)
+    
+            }else{
+            setReqMemList(data);
+            //   console.log('Response:', data);
+            //   alert(`Join Request has been sent to ${props.name}`)
+            //   setJoinState(true)
+            }  
+        }
+        async function confirmReq(auth_token){
+            const res = await fetch(`${api}/space/${spaceId}/request_manager/`,{
+                method: "PATCH",
+                
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Token "+ auth_token.toString()
+                      }
+                // body: {
+    
+                // }
+            });
+    
+            const data = await res.json()
+            
+            if(!res.ok){
+              alert(data)
+    
+            }else{
+                alert(`User has been added to the space`)
+                memFetcher();
+                memRenderer();
+                reqMemFetcher();
+                reqMemRenderer();
+            // setReqMemList(data);
+            //   console.log('Response:', data);
+            //   alert(`Join Request has been sent to ${props.name}`)
+            //   setJoinState(true)
+            }  
+        }
+
+        async function rejectReq(auth_token){
+            const res = await fetch(`${api}/space/${spaceId}/request_manager/`,{
+                method: "DELETE",
+                
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Token "+ auth_token.toString()
+                      }
+                // body: {
+    
+                // }
+            });
+    
+            const data = await res.json()
+            
+            if(!res.ok){
+              alert(data)
+    
+            }else{
+                alert(`The join request has been rejected`);
+                memFetcher();
+                memRenderer();
+                reqMemFetcher();
+                reqMemRenderer();
+            // setReqMemList(data);
+            //   console.log('Response:', data);
+            //   alert(`Join Request has been sent to ${props.name}`)
+            //   setJoinState(true)
+            }  
+        }
+
+
+
+        function reqMemRenderer(){
+            return reqMemList.map((mem, index) => (
+                <div className="eachmember h-[2rem] w-full px-1 bg-[#D9E5D6] border-[1px] flex items-center justify-between">
+                    <div className="profile h-[1.5rem] w-[1.5rem] bg-white flex items-center justify-center rounded-full">
+                        <CgProfile className='scale-[1.5]'/>
+                    </div>
+                    <div className="name px-2 w-[6rem] bg-[#0FA3B1] text-center text-white overflow-hidden">
+                        Someone
+                    </div>
+                    <div className='flex'>
+                        <div className="addmem p-2 text-center text-[blue] overflow-hidden cursor-pointer">
+                        {/* bg-[#F7A072] */}
+                            <SlPlus onClick={()=> confirmReq(token)} className='scale-[150%] hover:scale-[180%]'/>
+                            {/* <RxCrossCircled/> */}
+                        </div>
+                        <div className="addmem p-2 text-center text-[red] overflow-hidden cursor-pointer">
+                            <RxCrossCircled onClick={()=> rejectReq(token)} className='scale-[170%] hover:scale-[200%]'/>
+                        </div>
+                    </div>
+                </div>
+            ))}
+
+
+            // console.log(memList)
+            function amiTeacher(user, memList){
+                memList.map(mem => {
+                    // console.log(mem.is_teacher)
+                    console.log(mem.user_username == user);
+                    if(mem.user_username == user){
+                        // console.log(mem.is_teacher);
+                        if(mem.is_teacher){
+                            reqMemFetcher(token);
+                            // console.log("here");
+                            setiamTeacher(true);
+
+                            // console.log(iamTeacher);
+                        }
+                    }
+                    
+            })};
+
+            useLayoutEffect(()=>{
+                // getUser(token);
+                noticeFetcher(token)
+                portalFetcher(token)
+                memFetcher(token)
+                getUser(token);
+                // const usrn = user;
+                // console.log(user);
+                
+                // console.log(iamTeacher);
+                // console.log(user);
+                // console.log("this ran");
+                // {if(iamTeacher){
+                //     reqMemFetcher(token);
+                //     console.log("this ran");
+                // }
+                // }
+            },[token])
+            useLayoutEffect(()=>{
+                amiTeacher(user, memList);
+            },[user, memList])
+
+
+
+
+
   return (
     <>
+    
     <UpperNav/>
-    <section className='w-screen h-screen flex justify-center bg-[#f6eff3]'>
+    <section className='w-screen h-[110%] flex justify-center bg-[#f6eff3]'>
         
     {/* <div className="flex w-full max-w-sm items-center space-x-2">
       <Input type="email" placeholder="Email" />
       <Button type="submit">Subscribe</Button>
   </div> */}
     <div className='w-[100%] h-[95%] relative flex flex-col items-center'>
-    <h1 className='text-[4rem] w-[70%] border-b-[1px] border-solid border-[black] mb-10'>Herald College Space</h1>
+    <h1 className='text-[4rem] w-[70%] border-b-[1px] border-solid border-[black] mb-10'>
+        {/* Herald College Space */}
+        {name}
+        </h1>
     <div className="flex h-full w-full gap-5 px-5 ">
     <div className="members w-[13%] px-2 shadow-lg bg-white before h-full overflow-y-auto flex flex-col gap-1">
-        <h1 className='text-[1.5rem]'>
-            Members:
-        </h1>
-        <div className="eachmember h-[2rem] w-full px-1 bg-[#D9E5D6] border-[1px] flex items-center justify-between">
-        <div className="profile h-[1.5rem] w-[1.5rem] bg-white flex items-center justify-center rounded-full">
-            <CgProfile className='scale-[1.5]'/>
+        <div className='flex justify-between items-center'>
+            <h1 className='text-[1.5rem]'>
+                Members:
+            </h1>
+            <div className="add">
+                {/* <SlPlus className='scale-[150%]'/> */}
+                {!iamTeacher?
+                    ""
+                :
+                <AddMembers spaceId={spaceId} fetcher={memFetcher} renderer={memRenderer}/>
+                }
+                
             </div>
-            <div className="name px-2 w-[6rem] bg-[#0FA3B1] text-center text-white overflow-hidden">
-                Someone
-            </div>
-            <div className="role bg-[#F7A072] px-2 w-[4rem] text-center text-white overflow-hidden">
-                Admin
-            </div>
+        </div>
+        <div className="memberlist h-[45%] overflow-y-auto border-[1px] border-gray-300">
+            {/* <div className="eachmember h-[2rem] w-full px-1 bg-[#D9E5D6] border-[1px] flex items-center justify-between">
+                <div className="profile h-[1.5rem] w-[1.5rem] bg-white flex items-center justify-center rounded-full">
+                    <CgProfile className='scale-[1.5]'/>
+                </div>
+                <div className="name px-2 w-[6rem] bg-[#0FA3B1] text-center text-white overflow-hidden">
+                    Someone
+                </div>
+                <div className="role bg-[#F7A072] px-2 w-[4rem] text-center text-white overflow-hidden">
+                    Admin
+                </div>
+            </div> */}
+            {memRenderer()}
+        </div>
+        <div className='flex justify-between items-center'>
+            <h1 className='text-[1.5rem]'>
+                Requests:
+            </h1>
+        </div>
+        <div className="requestedmember h-[44%] overflow-y-auto border-[1px] border-gray-300">
+                {reqMemRenderer()}
         </div>
     </div>
     <div className="allcontent bg-white h-[full] w-[72%] overflow-y-auto border-2 border-solid flex flex-col justify-between p-2">
-        { true ?
-            <CreateNotice spaceId={spaceId}/>
+        { iamTeacher ?
+            <CreateNotice spaceId={spaceId} fetcher={noticeFetcher} renderer={noticeRenderer}/>
             :
             ''
         }
@@ -157,8 +434,8 @@ function portalRenderer(){
                 <p>
                 Active Portals:
                 </p>
-                        { true ?
-                    <CreatePortal spaceId={spaceId}/>
+                        { iamTeacher ?
+                    <CreatePortal spaceId={spaceId} fetcher={portalFetcher} renderer={portalRenderer}/>
                     :
                     ''
                 }

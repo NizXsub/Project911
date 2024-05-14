@@ -7,11 +7,25 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { FiPlus } from "react-icons/fi";
+import {api} from './variables.js';
+// import {spaceDataContainer} from "./Spaces.jsx";
+// import { createContainer } from "unstated-next";
 // import { RxCross2 } from "react-icons/rx";
 // import Spaces from './Spaces.jsx';
 // import { Console } from 'console';
 
-export default function FormDialog() {
+// const spaceNumber = () =>{
+//   const [track, setTrack] = React.useState(0);
+//   const trackAdder = () => {
+//     setTrack(track+1);
+//   }
+//   return {track, trackAdder}
+
+// }
+// export const spaceNumberContainer = createContainer(spaceNumber);
+
+export default function FormDialog({func}) {
+  // const spaceContainer = spaceDataContainer.useContainer();
 
   const token = localStorage.getItem("auth_token");
     // const [requestData, setrequestData] = React.useState()
@@ -22,9 +36,11 @@ export default function FormDialog() {
     //   return <Spaces spaceCount={num}/>
     // }
 
+
+
     async function createSpace(auth_token, rdata){
         // const res = await fetch("https://homework-collab-production.up.railway.app/space/create_space/",{
-          const res = await fetch("http://127.0.0.1:8000/space/create_space/",{
+          const res = await fetch(`${api}/space/create_space/`,{
             method: "POST",
             
                 headers: {
@@ -38,10 +54,17 @@ export default function FormDialog() {
         
         if(!res.ok){
           alert(data)
+          // spaceContainer.spaceFetcher();
+
 
         }else{
 
           console.log('Response:', data);
+          func(token);
+          // props.spaceNumber++
+          // let spaceNum = spaceNumber();
+          // spaceNum.trackAdder;
+          // console.log(spaceNum.track)
           // setSpaces(spaces+1);
           // Console.log(spaces);
           // dataPasser(spaces);
