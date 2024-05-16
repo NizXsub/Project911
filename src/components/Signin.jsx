@@ -53,7 +53,7 @@ export default function SignIn() {
       const json = await res.json();
       // console.log(json)
       localStorage.setItem("auth_token", json.auth_token);
-      window.location.href="/dashboard/spaces";
+      window.location.href="dashboard/spaces";
     }else{
      
         const x = await res.json()
