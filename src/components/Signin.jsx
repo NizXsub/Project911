@@ -36,6 +36,7 @@ export default function SignIn() {
   const handleSubmit = async(event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    try{
     const res = await fetch(`${api}/auth/token/login/`,
     {
       method: "POST",
@@ -54,9 +55,14 @@ export default function SignIn() {
       localStorage.setItem("auth_token", json.auth_token);
       window.location.href="dashboard/spaces";
     }else{
+     
         const x = await res.json()
-        alert(`${x.username == undefined ? "":x.username}\n${x.email == undefined ? "":x.email}\n${x.password == undefined ? "":x.password}`)
-    }
+        // alert(`${x.username == undefined ? "":x.username}\n${x.email == undefined ? "":x.email}\n${x.password == undefined ? "":x.password}`)
+        throw new Error(data.error)
+      }
+  }catch(error){
+        alert(error.message)
+  }
    
   };
 

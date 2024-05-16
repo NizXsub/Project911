@@ -10,6 +10,8 @@ import Spaces from './components/Spaces';
 import SingleSpace from './components/SingleSpace';
 import Explore from './components/Explore';
 import MCQ from './components/MCQ'
+import CreateMCQ from './components/CreateMCQ'
+import MCQRender from './components/MCQRender';
 // import { spaceDataContainer } from './components/Spaces';
 
 function App() {
@@ -25,9 +27,10 @@ function App() {
           <Route index path="spaces" element={<Spaces/>} />
           <Route path=":spaceId/:name" element={<SingleSpace/>}/>
           <Route path='explore' element={<Explore/>}/>
-          
+          <Route path=":spaceId/:colId/createmcq" element={<CreateMCQ/>}/>  
         </Route> 
-        <Route path='mcq' element={<MCQ/>}/>
+        {/* <Route path='mcq' element={<MCQRender/>}/>
+        <Route path='createmcq' element={<CreateMCQ/>}/> */}
     </Routes>
     </BrowserRouter>
     // </spaceDataContainer.Provider>

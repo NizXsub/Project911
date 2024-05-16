@@ -16,10 +16,14 @@ import { SlPlus } from "react-icons/sl";
 import AddMembers from "./AddMembers"
 import {api} from './variables.js';
 import { RxCrossCircled } from "react-icons/rx";
+import CreateCollection from './CreateCollection';
+import CreateMCQ from './CreateMCQ';
+import Snackbar from './Snackbar.jsx';
 // import { FaChalkboardTeacher } from "react-icons/fa";
 
 
 export default function SingleSpace(){
+
     const [iamTeacher, setiamTeacher] = useState(false);
     const [user, setUser] = useState();
     async function getUser(auth_token){
@@ -155,7 +159,7 @@ function portalRenderer(){
 
         }else{
         setMemList(data);
-        //   console.log('Response:', data);
+          console.log('Response:', data);
         //   alert(`Join Request has been sent to ${props.name}`)
         //   setJoinState(true)
 
@@ -171,17 +175,45 @@ function portalRenderer(){
                 <div className="name px-2 w-[fit] bg-[#0FA3B1] text-center text-white overflow-hidden">
                     {mem.user_username}
                 </div>
-                <div className="role bg-[#d5c3b9] px-1 w-[4rem] text-center text-white overflow-hidden">
+                {/* <div className="role bg-[#d5c3b9] px-1 w-[4rem] text-center text-white overflow-hidden cursor-pointer hover:bg-green-200"> */}
                     {!mem.is_teacher?
-                    "Member"
+                    <div onClick={() => promote(token, mem.user_username)} className="role bg-[#d5c3b9] px-1 w-[4rem] text-center text-white overflow-hidden cursor-pointer hover:bg-green-200">Member</div>
                     :
-                    "Teacher"
+                    <div className="role bg-[#d5c3b9] px-1 w-[4rem] text-center text-white overflow-hidden cursor-pointer hover:bg-red-200">Teacher</div>
                     }    
-                </div>
+                {/* </div> */}
             </div>
             
             
         ))}
+    
+    async function promote(auth_token, puser){
+        const res = await fetch(`${api}/space/change_to_teacher/${spaceId}/${puser}/`,{
+            method: "PATCH",
+            
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Token "+ auth_token.toString()
+                  },
+            body: {is_teacher: true
+            }
+        });
+
+        const data = await res.json()
+        
+        if(!res.ok){
+          alert(data)
+
+        }else{
+        // setMemList(data);
+          console.log('Response:', data);
+        //   alert(`Join Request has been sent to ${props.name}`)
+        //   setJoinState(true)
+
+        }
+        
+    }
+
 
         const [reqMemList, setReqMemList] = useState([]);
 
@@ -205,28 +237,32 @@ function portalRenderer(){
     
             }else{
             setReqMemList(data);
-            //   console.log('Response:', data);
+              console.log('Response:', data);
             //   alert(`Join Request has been sent to ${props.name}`)
             //   setJoinState(true)
             }  
         }
-        async function confirmReq(auth_token){
+        async function confirmReq(auth_token, rid){
+            try{
             const res = await fetch(`${api}/space/${spaceId}/request_manager/`,{
                 method: "PATCH",
                 
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": "Token "+ auth_token.toString()
-                      }
-                // body: {
+                      },
+                body: JSON.stringify({ 
+                    "request_id": `${rid}`
+                })
     
-                // }
             });
     
             const data = await res.json()
+            // body.data()
             
             if(!res.ok){
-              alert(data)
+            //   alert(res.error.message)
+              throw new Error(data.error)
     
             }else{
                 alert(`User has been added to the space`)
@@ -239,25 +275,35 @@ function portalRenderer(){
             //   alert(`Join Request has been sent to ${props.name}`)
             //   setJoinState(true)
             }  
+        }catch(error){
+            alert(error.message);
+            memFetcher();
+            memRenderer();
+            reqMemFetcher();
+            reqMemRenderer();
+
+        }
         }
 
-        async function rejectReq(auth_token){
+        async function rejectReq(auth_token, rid){
+            try{
             const res = await fetch(`${api}/space/${spaceId}/request_manager/`,{
                 method: "DELETE",
                 
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": "Token "+ auth_token.toString()
-                      }
-                // body: {
-    
-                // }
+                      },
+                body: JSON.stringify({
+                    "request_id": `${rid}`
+                })
             });
     
             const data = await res.json()
             
             if(!res.ok){
-              alert(data)
+            //   alert(data)
+                throw new Error(data.error)
     
             }else{
                 alert(`The join request has been rejected`);
@@ -269,7 +315,14 @@ function portalRenderer(){
             //   console.log('Response:', data);
             //   alert(`Join Request has been sent to ${props.name}`)
             //   setJoinState(true)
-            }  
+            } 
+        }catch(error){
+            alert(error.message);
+                memFetcher();
+                memRenderer();
+                reqMemFetcher();
+                reqMemRenderer();
+        } 
         }
 
 
@@ -286,11 +339,11 @@ function portalRenderer(){
                     <div className='flex'>
                         <div className="addmem p-2 text-center text-[blue] overflow-hidden cursor-pointer">
                         {/* bg-[#F7A072] */}
-                            <SlPlus onClick={()=> confirmReq(token)} className='scale-[150%] hover:scale-[180%]'/>
+                            <SlPlus onClick={()=> confirmReq(token, mem.request_id)} className='scale-[150%] hover:scale-[180%]'/>
                             {/* <RxCrossCircled/> */}
                         </div>
                         <div className="addmem p-2 text-center text-[red] overflow-hidden cursor-pointer">
-                            <RxCrossCircled onClick={()=> rejectReq(token)} className='scale-[170%] hover:scale-[200%]'/>
+                            <RxCrossCircled onClick={()=> rejectReq(token, mem.request_id)} className='scale-[170%] hover:scale-[200%]'/>
                         </div>
                     </div>
                 </div>
@@ -315,6 +368,88 @@ function portalRenderer(){
                     
             })};
 
+
+
+
+            const [col, setCol] = useState([]);
+
+        async function fetchCollections(auth_token){
+            const res = await fetch(`${api}/space/${spaceId}/mcq/get_collections/`,{
+                method: "GET",
+                
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Token "+ auth_token.toString()
+                        }
+                // body: {
+    
+                // }
+            });
+    
+            const data = await res.json()
+            
+            if(!res.ok){
+                alert(data)
+    
+            }else{
+                // alert(`The join request has been rejected`);
+                // console.log(data);
+                setCol(data);
+                // console.log(data);
+                // console.log(col);
+                
+            }  
+        }
+
+        function renderCollections(){
+            return col.map(c =>(
+                <Exlink to={`/dashboard/${spaceId}/${c.collectionId}/`}>
+                <div className="papers p-1 flex flex-col shadow-lg gap-1 hover:scale-[105%] transition-all">
+                {!iamTeacher?
+                    ""
+                    :
+                    <Exlink className='p-1 border-[1px] border-gray-300 text-center hover:bg-gray-200 transition-all' to={`/dashboard/${spaceId}/${c.collectionId}/createmcq`}>
+                        Add Questions
+                    </Exlink>
+                }
+            <div className="paper flex justify-between items-center bg-yellow-400">
+                    Title: {c.name}
+            
+            </div>
+            <div className="content flex flex-col">
+                <div className="marks flex justify-between">
+                    <div className="fullmarks">
+                    F Marks: {c.marks}
+                    </div>
+                    <div className="passmarks">
+                    P Marks: 
+
+                    </div>
+                </div>
+                <div className="times flex justify-between">
+                    <div className="time">
+                        Time: {c.time_in_minutes} min
+
+                    </div>
+                    <div className="createdby">
+                        By: {c.created_by}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </Exlink>
+        ));
+
+        }
+
+
+
+
+
+
+
+
             useLayoutEffect(()=>{
                 // getUser(token);
                 noticeFetcher(token)
@@ -335,16 +470,15 @@ function portalRenderer(){
             },[token])
             useLayoutEffect(()=>{
                 amiTeacher(user, memList);
+                fetchCollections(token)
             },[user, memList])
-
-
-
 
 
   return (
     <>
     
     <UpperNav/>
+    {/* <Snackbar msg={"hello"}/> */}
     <section className='w-screen h-[110%] flex justify-center bg-[#f6eff3]'>
         
     {/* <div className="flex w-full max-w-sm items-center space-x-2">
@@ -512,27 +646,37 @@ function portalRenderer(){
         </div>
 
     </div>
-    <div className="resources relative w-[13%] h-full bg-white shadow-lg">
+    <div className="resources relative w-[13%] h-full bg-white shadow-lg flex flex-col">
         <div className="calendar p-4 flex">
             Events: 
             <div className='absolute left-[84%] top-5'>
             {<IoCalendar className='scale-[300%]'/>}
             </div>
-         <div>
-      <DatePicker
-        selected={startDate}
-        onChange={(date) => setStartDate(date)}
-        dateFormat="MMMM d, yyyy"
-        showPopperArrow={false}
-        className='absolute top-10 w-[7rem] border-[1px] border-gray-300 text-center'
-      />
-    </div>
-            <div className='absolute bottom-5'>
-                <Exlink className='p-2 border-[1px] border-black' to={'/mcq'}>
-                MCQs
-                </Exlink>
-            </div>
+        <div>
+        <DatePicker
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            dateFormat="MMMM d, yyyy"
+            showPopperArrow={false}
+            className='absolute top-10 w-[7rem] border-[1px] border-gray-300 text-center'
+        />
         </div>
+        <div className='absolute bottom-0 left-0 w-full h-[60%] p-2 flex flex-col justify-between items-center'>
+            <div className='w-full'>
+                MCQs:
+                <div className='left-[2.5%] absolute w-[95%] h-[80%] overflow-y-auto flex flex-col gap-2 border-2 p-2 border-gray-200'>
+                   {renderCollections()}
+                </div>
+            </div>
+            {!iamTeacher?
+                ""
+                :
+            <div className='flex flex-col'>
+                <CreateCollection spaceId={spaceId} renderer={renderCollections} fetcher={fetchCollections}/>
+            </div>
+            }
+        </div>
+    </div>
     </div>
     </div>
     </div>

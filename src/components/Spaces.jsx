@@ -4,6 +4,7 @@ import { Link as Exlink } from 'react-router-dom';
 import UpperNav from './UpperNav';
 import CreateSpace from './CreateSpace.jsx';
 import {api} from './variables.js';
+import Snackbar from './Snackbar.jsx';
 // import { createContainer } from "unstated-next";
 
 
@@ -68,9 +69,15 @@ function cardRenderer(){
 
   ))
 }
+
+  // function sRenderer(){
+  //   return <Snackbar msg={"Space Id Copied!!"}/>
+  // }
+
   // return spaceFetcher
   return (
     <>
+    {/* {sRenderer()} */}
     <UpperNav/>
     <section className='w-screen h-fit flex justify-center'>
     {/* bg-[#f6eff3] */}

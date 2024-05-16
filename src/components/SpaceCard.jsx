@@ -4,16 +4,21 @@ import { BiTask } from "react-icons/bi";
 import './SpaceCard.css';
 import { MdContentCopy } from "react-icons/md";
 import {api} from "./variables.js"
+import Snackbar from './Snackbar.jsx'
 
 const SpaceCard = (props) => {
     let token = localStorage.getItem("auth_token");
     const [joinState, setJoinState] = React.useState(false)
+    // const [strack, setStrack] = React.useState(false)
 
     const spaceIdRef = React.useRef(null);
     const copyContent = () =>{
         // const spaceIdContent = spaceIdRef.current.innerText;
         navigator.clipboard.writeText(props.spaceId);
+        // props.renderer();
         alert("SpaceId Copied!");
+        // setStrack(true);
+        // <Snackbar msg={"Space Id Copied!!"}/>
     }
     async function joinReq(auth_token){
         const res = await fetch(`${api}/space/${props.spaceId}/send_request/`,{
