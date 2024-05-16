@@ -53,12 +53,12 @@ export default function SignIn() {
       const json = await res.json();
       // console.log(json)
       localStorage.setItem("auth_token", json.auth_token);
-      window.location.href="dashboard/spaces";
+      window.location.href="/dashboard/spaces";
     }else{
      
         const x = await res.json()
         // alert(`${x.username == undefined ? "":x.username}\n${x.email == undefined ? "":x.email}\n${x.password == undefined ? "":x.password}`)
-        throw new Error(data.error)
+        throw new Error(x.error)
       }
   }catch(error){
         alert(error.message)

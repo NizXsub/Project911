@@ -34,8 +34,9 @@ const defaultTheme = createTheme();
 
 
 export default function SignUp() {
-
+  
   const handleSubmit = async(event) => {
+
     event.preventDefault();
     const data = new FormData(event.currentTarget);
  
@@ -43,6 +44,8 @@ export default function SignUp() {
       alert("password not matching")
       return;
     }
+
+    try{
     const res = await fetch(`${api}/auth/users/`,
     {
       method: "POST",
@@ -58,11 +61,15 @@ export default function SignUp() {
     )
     
     if(res.ok){
-      window.location.href="/Signin"
+      window.location.href="/signin"
     }else{
       const x = await res.json()
-      alert(`${x.username == undefined ? "":x.username}\n${x.email == undefined ? "":x.email}\n${x.password == undefined ? "":x.password}`)
+      throw new Error(x.error)
+      // alert(`${x.username == undefined ? "":x.username}\n${x.email == undefined ? "":x.email}\n${x.password == undefined ? "":x.password}`)
     }
+  }catch(error){
+    alert(error.message)
+  }
   };
 
   return (
