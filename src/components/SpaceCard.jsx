@@ -4,7 +4,7 @@ import { BiTask } from "react-icons/bi";
 import './SpaceCard.css';
 import { MdContentCopy } from "react-icons/md";
 import {api} from "./variables.js"
-import Snackbar from './Snackbar.jsx'
+// import Snackbar from './Snackbar.jsx'
 
 const SpaceCard = (props) => {
     let token = localStorage.getItem("auth_token");
