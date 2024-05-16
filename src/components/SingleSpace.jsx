@@ -18,7 +18,7 @@ import {api} from './variables.js';
 import { RxCrossCircled } from "react-icons/rx";
 import CreateCollection from './CreateCollection';
 import CreateMCQ from './CreateMCQ';
-import Snackbar from './Snackbar.jsx';
+// import Snackbar from './Snackbar.jsx';
 // import { FaChalkboardTeacher } from "react-icons/fa";
 
 

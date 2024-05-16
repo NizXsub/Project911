@@ -2,7 +2,7 @@ import React from 'react'
 import UpperNav from './UpperNav'
 import SpaceCard from './SpaceCard'
 import {api} from './variables.js'
-import Snackbar from './Snackbar.jsx'
+// import Snackbar from './Snackbar.jsx'
 
 const Explore = () => {
   const token = localStorage.getItem("auth_token");
