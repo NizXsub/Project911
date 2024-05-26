@@ -31,7 +31,8 @@ export default function Dashboard() {
 
       }else{
         alert("You haven't signed up. Please do that first.")
-        navigate("/signup");
+        // navigate("/signup");
+        window.location.href="/signup"
         // alert(`${x.username == undefined ? "":x.username}\n${x.email == undefined ? "":x.email}\n${x.password == undefined ? "":x.password}`)
       }  
 
