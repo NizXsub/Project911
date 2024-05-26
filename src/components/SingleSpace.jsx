@@ -361,6 +361,7 @@ function portalRenderer(){
                             reqMemFetcher(token);
                             // console.log("here");
                             setiamTeacher(true);
+                            localStorage.setItem(`${spaceId}`, iamTeacher)
 
                             // console.log(iamTeacher);
                         }
@@ -403,12 +404,12 @@ function portalRenderer(){
 
         function renderCollections(){
             return col.map(c =>(
-                <Exlink to={`/dashboard/${spaceId}/${c.collectionId}/`}>
+                <Exlink to={`/dashboard/${spaceId}/${name}/${c.collectionId}/taketest`}>
                 <div className="papers p-1 flex flex-col shadow-lg gap-1 hover:scale-[105%] transition-all">
                 {!iamTeacher?
                     ""
                     :
-                    <Exlink className='p-1 border-[1px] border-gray-300 text-center hover:bg-gray-200 transition-all' to={`/dashboard/${spaceId}/${c.collectionId}/createmcq`}>
+                    <Exlink className='p-1 border-[1px] border-gray-300 text-center hover:bg-gray-200 transition-all' to={`/dashboard/${spaceId}/${name}/${c.collectionId}/createmcq`}>
                         Add Questions
                     </Exlink>
                 }
@@ -485,10 +486,11 @@ function portalRenderer(){
       <Input type="email" placeholder="Email" />
       <Button type="submit">Subscribe</Button>
   </div> */}
+
+  
     <div className='w-[100%] h-[95%] relative flex flex-col items-center'>
     <h1 className='text-[4rem] w-[70%] border-b-[1px] border-solid border-[black] mb-10'>
-        {/* Herald College Space */}
-        {name}
+            {name}
         </h1>
     <div className="flex h-full w-full gap-5 px-5 ">
     <div className="members w-[13%] px-2 shadow-lg bg-white before h-full overflow-y-auto flex flex-col gap-1">

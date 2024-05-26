@@ -43,10 +43,7 @@ export default function FormDialog(props) {
         alert(`${data.message}`)
         props.fetcher(token);
         props.renderer();
-        // setSpaces(spaces+1);
-        // Console.log(spaces);
-        // dataPasser(spaces);
-        // Props.spaces += 1;
+        
       }
       
 

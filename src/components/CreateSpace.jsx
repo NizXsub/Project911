@@ -61,14 +61,7 @@ export default function FormDialog({func}) {
 
           console.log('Response:', data);
           func(token);
-          // props.spaceNumber++
-          // let spaceNum = spaceNumber();
-          // spaceNum.trackAdder;
-          // console.log(spaceNum.track)
-          // setSpaces(spaces+1);
-          // Console.log(spaces);
-          // dataPasser(spaces);
-          // Props.spaces += 1;
+          
         }
         
 

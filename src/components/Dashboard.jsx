@@ -6,7 +6,8 @@ import { Outlet } from 'react-router-dom';
 
 
 export default function Dashboard() {
-    // const token = localStorage.getItem("auth_token");
+    
+    
     // const [spaces, setSpaces] = useState(null);
     // async function getSpace(auth_token){
     //     const res = await fetch("http://127.0.0.1:8000/space/all_spaces/",{
@@ -21,9 +22,19 @@ export default function Dashboard() {
     //     setSpaces(data)
     // }
 
-    // useEffect(()=>{
-    //     getSpace(token);
-    // },[])
+    useEffect(()=>{
+      const token = localStorage.getItem("auth_token");
+      console.log(token)
+      if(token){
+        // window.location.href="/signin"
+
+      }else{
+        alert("You haven't signed up. Please do that first.")
+        window.location.href="/signup"
+        // alert(`${x.username == undefined ? "":x.username}\n${x.email == undefined ? "":x.email}\n${x.password == undefined ? "":x.password}`)
+      }  
+
+    },[])
 
     // console.log(setSpaces)
 
