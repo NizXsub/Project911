@@ -513,7 +513,7 @@ function portalRenderer(){
     
     <UpperNav/>
     {/* <Snackbar msg={"hello"}/> */}
-    <section className='w-full h-[110%] flex justify-center bg-[#f6eff3]'>
+    <section className='w-full h-[110%] flex justify-center bg-[#f6eff3] overflow-x-hidden'>
         
     {/* <div className="flex w-full max-w-sm items-center space-x-2">
       <Input type="email" placeholder="Email" />
