@@ -1,11 +1,12 @@
 import { useState,  useEffect, useLayoutEffect } from "react";
 import Navbar from "./Navbar";
 import Spaces from "./Spaces";
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
 
 
 export default function Dashboard() {
+  const navigate = useNavigate()
     
     
     // const [spaces, setSpaces] = useState(null);
@@ -30,7 +31,7 @@ export default function Dashboard() {
 
       }else{
         alert("You haven't signed up. Please do that first.")
-        window.location.href="/signup"
+        navigate("/signup");
         // alert(`${x.username == undefined ? "":x.username}\n${x.email == undefined ? "":x.email}\n${x.password == undefined ? "":x.password}`)
       }  
 
