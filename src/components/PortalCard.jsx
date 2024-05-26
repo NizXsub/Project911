@@ -91,7 +91,7 @@ export default function PortalCard(props){
             </div>
             <div className="portalby font-bold">
             {/* <FaChalkboardTeacher className='scale-[1.5]'/> */}
-                - Teacher's Name
+                - Teacher
             </div>
         </div>
             <div className="dates p-1 flex flex-col gap-1">

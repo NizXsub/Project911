@@ -30,7 +30,7 @@ export default function UpperNav(){
 
     // console.log(user)
   return (
-    <nav className='h-16 w-screen border-[1px] border-solid border-[#DDE1E4] flex justify-between items-center px-16'>
+    <nav className='h-16 w-full border-b border-solid border-[#DDE1E4] flex justify-between items-center px-16'>
         <div>
             <Exlink to="/">
                 <img src="" alt="" />

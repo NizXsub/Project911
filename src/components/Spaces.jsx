@@ -4,6 +4,7 @@ import { Link as Exlink } from 'react-router-dom';
 import UpperNav from './UpperNav';
 import CreateSpace from './CreateSpace.jsx';
 import {api} from './variables.js';
+// import button from '../components/ui/button.jsx';
 // import Snackbar from './Snackbar.jsx';
 // import { createContainer } from "unstated-next";
 
@@ -108,7 +109,7 @@ function cardRenderer(){
       <CreateSpace func={spaceFetcher}/>
       </div>
     }
-    
+    {/* <button/> */}
     </div>
     </section>
     </>

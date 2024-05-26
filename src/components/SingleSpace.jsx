@@ -179,7 +179,7 @@ function portalRenderer(){
                     {!mem.is_teacher?
                     <div onClick={() => promote(token, mem.user_username)} className="role bg-[#d5c3b9] px-1 w-[4rem] text-center text-white overflow-hidden cursor-pointer hover:bg-green-200">Member</div>
                     :
-                    <div className="role bg-[#d5c3b9] px-1 w-[4rem] text-center text-white overflow-hidden cursor-pointer hover:bg-red-200">Teacher</div>
+                    <div onClick={() => demote(token, mem.user_username)} className="role bg-[#d5c3b9] px-1 w-[4rem] text-center text-white overflow-hidden cursor-pointer hover:bg-red-200">Teacher</div>
                     }    
                 {/* </div> */}
             </div>
@@ -195,8 +195,8 @@ function portalRenderer(){
                     "Content-Type": "application/json",
                     "Authorization": "Token "+ auth_token.toString()
                   },
-            body: {is_teacher: true
-            }
+            body: JSON.stringify({is_teacher: true
+            })
         });
 
         const data = await res.json()
@@ -207,6 +207,38 @@ function portalRenderer(){
         }else{
         // setMemList(data);
           console.log('Response:', data);
+          alert('The user has been promoted.')
+            memFetcher();
+            memRenderer();
+        //   alert(`Join Request has been sent to ${props.name}`)
+        //   setJoinState(true)
+
+        }
+        
+    }
+    async function demote(auth_token, puser){
+        const res = await fetch(`${api}/space/change_to_teacher/${spaceId}/${puser}/`,{
+            method: "PATCH",
+            
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Token "+ auth_token.toString()
+                  },
+            body: JSON.stringify({is_teacher: false
+            })
+        });
+
+        const data = await res.json()
+        
+        if(!res.ok){
+          alert(data)
+
+        }else{
+        // setMemList(data);
+          console.log('Response:', data);
+          alert('The user has been demoted.')
+            memFetcher();
+            memRenderer();
         //   alert(`Join Request has been sent to ${props.name}`)
         //   setJoinState(true)
 
@@ -237,6 +269,7 @@ function portalRenderer(){
     
             }else{
             setReqMemList(data);
+            
               console.log('Response:', data);
             //   alert(`Join Request has been sent to ${props.name}`)
             //   setJoinState(true)
@@ -252,7 +285,7 @@ function portalRenderer(){
                         "Authorization": "Token "+ auth_token.toString()
                       },
                 body: JSON.stringify({ 
-                    "request_id": `${rid}`
+                    request_id: `${rid}`
                 })
     
             });
@@ -295,7 +328,7 @@ function portalRenderer(){
                         "Authorization": "Token "+ auth_token.toString()
                       },
                 body: JSON.stringify({
-                    "request_id": `${rid}`
+                    request_id: `${rid}`
                 })
             });
     
@@ -480,7 +513,7 @@ function portalRenderer(){
     
     <UpperNav/>
     {/* <Snackbar msg={"hello"}/> */}
-    <section className='w-screen h-[110%] flex justify-center bg-[#f6eff3]'>
+    <section className='w-full h-[110%] flex justify-center bg-[#f6eff3]'>
         
     {/* <div className="flex w-full max-w-sm items-center space-x-2">
       <Input type="email" placeholder="Email" />
@@ -493,7 +526,7 @@ function portalRenderer(){
             {name}
         </h1>
     <div className="flex h-full w-full gap-5 px-5 ">
-    <div className="members w-[13%] px-2 shadow-lg bg-white before h-full overflow-y-auto flex flex-col gap-1">
+    <div className="members w-[15%] px-2 shadow-lg bg-white before h-full overflow-y-auto flex flex-col gap-1">
         <div className='flex justify-between items-center'>
             <h1 className='text-[1.5rem]'>
                 Members:
@@ -648,7 +681,7 @@ function portalRenderer(){
         </div>
 
     </div>
-    <div className="resources relative w-[13%] h-full bg-white shadow-lg flex flex-col">
+    <div className="resources relative w-[16%] h-full bg-white shadow-lg flex flex-col">
         <div className="calendar p-4 flex">
             Events: 
             <div className='absolute left-[84%] top-5'>

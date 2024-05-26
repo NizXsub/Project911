@@ -101,7 +101,7 @@ export default function FormDialog(props) {
         <DialogTitle>Add members</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            {`You can add members to your space with their IDs.`}
+            {`You can add members to your space with their usernames.`}
           </DialogContentText>
           <TextField
             autoFocus
@@ -109,7 +109,7 @@ export default function FormDialog(props) {
             margin="dense"
             id="member_id"
             name="member_id"
-            label="Member Id:"
+            label="Username:"
             type="text"g
             fullWidth
             variant="standard"

@@ -14,6 +14,7 @@ import CreateMCQ from './components/CreateMCQ'
 import MCQRender from './components/MCQRender';
 import NewLanding from './components/NewLanding';
 import Answersheet from './components/Answersheet';
+import Important from './components/Important';
 // import { spaceDataContainer } from './components/Spaces';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="signin" element={<Signin/>} />
         <Route path='signup' element={<SignUp/>}/>
         <Route path='dashboard' element={<Dashboard/>}>
+          <Route path='imp' element={<Important/>}/>
           <Route index path="spaces" element={<Spaces/>} />
           <Route path=":spaceId/:name" element={<SingleSpace/>}/>
           <Route path='explore' element={<Explore/>}/>
