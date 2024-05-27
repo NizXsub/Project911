@@ -51,7 +51,7 @@ export default function IconLabelTabs() {
       <Exlink to={"spaces"}>
         <Tab value={0} icon={<BsPersonWorkspace/>} label="Spaces" onClick={()=> setValue(0)}/>
       </Exlink>
-      <Exlink to={"singlespace"}>
+      <Exlink to={"imp"}>
         <Tab value={1} icon={<FaStar/>} label="Important" onClick={()=> setValue(1)}/>
       </Exlink>
       <Exlink to={"explore"}>

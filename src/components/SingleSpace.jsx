@@ -188,6 +188,7 @@ function portalRenderer(){
         ))}
     
     async function promote(auth_token, puser){
+        try{
         const res = await fetch(`${api}/space/change_to_teacher/${spaceId}/${puser}/`,{
             method: "PATCH",
             
@@ -202,7 +203,8 @@ function portalRenderer(){
         const data = await res.json()
         
         if(!res.ok){
-          alert(data)
+        //   alert(data)
+          throw new Error(data.detail)
 
         }else{
         // setMemList(data);
@@ -214,6 +216,9 @@ function portalRenderer(){
         //   setJoinState(true)
 
         }
+    }catch(error){
+        alert(error)
+    }
         
     }
     async function demote(auth_token, puser){
@@ -285,7 +290,8 @@ function portalRenderer(){
                         "Authorization": "Token "+ auth_token.toString()
                       },
                 body: JSON.stringify({ 
-                    request_id: `${rid}`
+                    request_id: `${rid}`,
+                    is_pending: false
                 })
     
             });

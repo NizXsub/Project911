@@ -64,11 +64,11 @@ export default function SignUp() {
       window.location.href="/signin"
     }else{
       const x = await res.json()
-      throw new Error(x.error)
-      // alert(`${x.username == undefined ? "":x.username}\n${x.email == undefined ? "":x.email}\n${x.password == undefined ? "":x.password}`)
+      // throw new Error(x.error)
+      alert(`${x.username == undefined ? "":x.username}\n${x.email == undefined ? "":x.email}\n${x.password == undefined ? "":x.password}`)
     }
   }catch(error){
-    alert(error.message)
+    // alert(error.message)
   }
   };
 

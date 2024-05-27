@@ -9,6 +9,14 @@ import {api} from "./variables.js"
 const SpaceCard = (props) => {
     let token = localStorage.getItem("auth_token");
     const [joinState, setJoinState] = React.useState(false)
+    
+    
+    // React.useEffect =()=>{
+    // let localStoreJoin = localStorage.getItem(`${props.id} req`)
+    // if(`${props.id} req`){
+    //     setJoinState(true)
+    // }
+    // }
     // const [strack, setStrack] = React.useState(false)
 
     const spaceIdRef = React.useRef(null);
@@ -42,6 +50,7 @@ const SpaceCard = (props) => {
           console.log('Response:', data);
           alert(`Join Request has been sent to ${props.name}`)
           setJoinState(true)
+          localStorage.setItem(`${props.id} req`)
 
         }
         
@@ -75,7 +84,8 @@ const SpaceCard = (props) => {
             <div className="notices w-full h-[60%] border-[1px]">
 
             </div>
-            { !props.explore ?
+            { 
+            !props.explore ?
 
                 <div className="OpenPortals flex justify-start">
                 <div className='h-[2rem] w-[2rem] relative'>
@@ -86,7 +96,8 @@ const SpaceCard = (props) => {
                 </div>
                 :
                 <div>
-                    {!joinState?
+                    {
+                    !joinState?
                     <button type="submit" onClick={() => joinReq(token)} className='bg-[#76FF7A] text-black font-bold text-[1.2rem] h-[2.5rem] w-[7rem] border-[1px] border-solid hover:border-2 hover:border-black'>
                         Join
                     </button>

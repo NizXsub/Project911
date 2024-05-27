@@ -57,11 +57,11 @@ export default function SignIn() {
     }else{
      
         const x = await res.json()
-        // alert(`${x.username == undefined ? "":x.username}\n${x.email == undefined ? "":x.email}\n${x.password == undefined ? "":x.password}`)
-        throw new Error(x.error)
+        alert(`${x.username == undefined ? "":x.username}\n${x.email == undefined ? "":x.email}\n${x.password == undefined ? "":x.password}\n${x.non_field_errors == undefined ? "":x.non_field_errors }`)
+        // throw new Error(x.error)
       }
   }catch(error){
-        alert(error.message)
+        // alert(error.message)
   }
    
   };

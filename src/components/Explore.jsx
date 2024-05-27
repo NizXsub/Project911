@@ -50,8 +50,8 @@ const Explore = () => {
     <>
       <UpperNav />
       <section className='w-screen h-auto flex flex-col items-center'>
-        <div className='h-[6rem] w-[70%] flex justify-between items-center'>
-          <h1 className='text-[4rem]'>Explore Spaces</h1>
+        <div className='h-[6%] w-[70%] flex justify-between items-center'>
+          <h1 className='text-[3rem]'>Explore Spaces</h1>
           <form class="w-[50rem]">
             <label htmlFor="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
             <div class="relative">
